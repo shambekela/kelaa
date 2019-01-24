@@ -11,10 +11,11 @@ class User(UserMixin, db.Model):
 	id = db.Column(db.Integer, unique=True, primary_key=True)
 	uuid = db.Column(db.Integer, unique=True ,index=True)
 	username = db.Column(db.String(255), unique=True, nullable=False)
-	email = db.Column(db.String(255), unique=True)
+	email = db.Column(db.String(255), unique=True)	
 	password_hash = db.Column(db.String(255), nullable=True)
 	channels = db.relationship('Channel', backref='creator', lazy=True)
-	trackers = db.relationship('Tracker', backref='user', lazy=True) 
+	trackers = db.relationship('Tracker', backref='user', lazy=True)
+	question = db.relationship('Question', backref='asked', lazy=True)
 
 	# set getstarted modal seen
 	def set_password(self, password):
@@ -92,6 +93,7 @@ class Question(db.Model):
 	answer_text = db.Column(db.Text)
 	timestamp = db.Column(db.DateTime, default=datetime.utcnow)
 	favourite = db.Column(db.Boolean, default=False)
+	activities = db.relationship('Activity', backref='current_question', lazy=True)
 
 class Tracker(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
@@ -99,14 +101,26 @@ class Tracker(db.Model):
 	user_uuid = db.Column(db.Integer, db.ForeignKey('user.uuid'))
 
 class Activity(db.Model):
-	id = 
+	id = db.Column(db.Integer, primary_key=True)
+	activity_id = db.Column(db.Integer, unique=True)
+	user_uuid = db.Column(db.Integer, db.ForeignKey('user.uuid'))
+	channel_id = db.Column(db.Integer, db.ForeignKey('channel.channel_id'))
+	current_question = db.Column(db.Integer, db.ForeignKey('Question.key'))
+	started_date = db.Column(db.Integer, default=datetime.utcnow)
+	in_progress = db.Column(db.Boolean, default=True)
 
 
 class LoginType(db.Model):
 	__tablename__ = 'login_type'
 	id = db.Column(db.Integer, primary_key=True)
 	type = db.Column(db.String(128), nullable=False) # google, email, twitter
-	users = db.relationship('UserDetails', backref='logintype', lazy=True)	
+	users = db.relationship('UserDetails', backref='logintype', lazy=True)
+
+class UserType(db.Model):
+	__tablename__ = 'user_type'
+	id = db.Column(db.Integer, primary_key=True)
+	type = db.Column(db.String(128), nullable=False) # google, email, twitter
+	users = db.relationship('UserDetails', backref='logintype', lazy=True)
 
 
 @login_manager.user_loader
