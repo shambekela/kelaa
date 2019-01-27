@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %} {{ super() }} Home - Study with questions {% endblock title %}
+
+{% block head %} 
+	{{ super() }} 
+{% endblock head %}
+
+{% block header %}
+    {{ super() }}
+{% endblock header %}
+
+{% block main %}
+    <div class="container main">
+    	<div class="row">
+    		<div class="col-md-10 m-auto text-right p-4 main-option-container">
+    			<button class="btn btn-primary btn-sm main-add-button"><i class="fas fa-plus"></i> Add new channel</button>
+    		</div>
+    	</div>
+    	<div class="row justify-content-center main-card-container">
+			<div class="col-md-10">
+				{% for a in range(1, 6) %}
+    			<div class="row">
+    				<div class="col">
+    					<div class="card main-card">
+		    				<div class="card-body">
+		    					<div class="row d-flex">
+		    						<div class="col-md-10">
+		    							<div class="card-text h5"><a href="#">Introduction to marketing</a> </div>
+		    							{% set bb = (37/(a)) %}
+		    							<div class="d-flex justify-content-between">
+		    								<div class="small main-card-question-indicator">{{ bb |round|int }} questions</div>
+		    								<div class="small main-card-last-added">Last added: 3 days ago</div>
+		    							</div>
+		    						</div>
+		    						<div class="col-md-2 text-right">
+		    							<div class="dropdown">
+										  <a id="dropdownMenuButton" data-toggle="dropdown">
+										    <i class="fas fa-ellipsis-v"></i>
+										  </a>
+										  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+										    <a class="dropdown-item" href="#">Edit</a>
+										    <a class="dropdown-item" href="#">Delete</a>
+										  </div>
+										</div>
+		    						</div>
+		    					</div>
+		    				</div>
+		    				<a href="{{ url_for('main.channel', channel_key=bb) }}"><span></span></a>
+		    			</div>
+    				</div>
+    			</div>
+    			{% endfor %}
+    		</div>
+    	</div>
+    </div>
+{% endblock main %}
+
+{% block footer %}
+    {{ super() }}
+{% endblock footer %}
+
+{% block scripts %}
+    {{ super() }}
+{% endblock scripts %}

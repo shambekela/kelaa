@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %} {{ super() }} {% endblock title %}
+
+{% block head %} 
+	{{ super() }} 
+{% endblock head %}
+
+{% block header %}
+    {{ super() }}
+{% endblock header %}
+
+{% block main %}
+    <div class="container main">
+    	<div class="row">
+    		<div class="col-md-10 m-auto text-right p-4 channel-option-container">
+    			<a href="{{url_for('main.home')}}" class="float-left btn btn-outline-secondary btn-sm">Back</a>
+    			<button class="btn btn-primary btn-sm main-add-button">Add new question</button>
+    			<button class="btn btn-primary btn-sm main-review-button" data-toggle="modal" data-target="#exampleModal">Start a review</button>
+    		</div>
+    	</div>
+    	<div class="row justify-content-center question-card-container">
+			<div class="col-md-10">
+				<div class="card-columns">
+    				{% for a in tweet %}
+    				<div class="card question-card">
+	    				<div class="card-body">
+	    					<div class="row d-flex">
+	    						<div class="card-text"><a href="#">{{ a[: range(20, 100) | random ] }}</a> </div>
+	    					</div>
+	    				</div>
+	    				<a href="{{ url_for('main.channel', channel_key=bb) }}"><span></span></a>
+	    			</div>
+					{% endfor %}
+    			</div>
+    		</div>
+    	</div>
+    </div>
+
+    <div class="modal fade bd-example-modal-lg" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	  <div class="modal-dialog modal-dialog-centered" role="document">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <h5 class="modal-title" id="exampleModalLabel"></h5>
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	          <span aria-hidden="true">&times;</span>
+	        </button>
+	      </div>
+	      <div class="modal-body bg-secondary text-light">
+	        <div id="carouselExampleControls" class="carousel slide" data-interval="false">
+			  <div class="carousel-inner p-5 text-center">
+			    {% for ab in tweet %}
+			    	{% if loop.index == 1 %}
+			    		<div class="carousel-item active">
+			    	{% else %}
+			    	    <div class="carousel-item">
+			    	{% endif %}
+				      <p>{{ab}}</p>
+				      <a href="{{ url_for('main.home') }}" class="btn btn-primary">View more</a>
+				    </div>
+			    {% endfor %}
+			  </div>
+			  <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+			    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+			    <span class="sr-only">Previous</span>
+			  </a>
+			  <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+			    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+			    <span class="sr-only">Next</span>
+			  </a>
+			</div>
+	      </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+	        <button type="button" class="btn btn-primary">Save changes</button>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+{% endblock main %}
+
+{% block footer %}
+    {{ super() }}
+{% endblock footer %}
+
+{% block scripts %}
+    {{ super() }}
+{% endblock scripts %}

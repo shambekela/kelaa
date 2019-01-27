@@ -15,7 +15,8 @@ class User(UserMixin, db.Model):
 	password_hash = db.Column(db.String(255), nullable=True)
 	channels = db.relationship('Channel', backref='creator', lazy=True)
 	trackers = db.relationship('Tracker', backref='user', lazy=True)
-	question = db.relationship('Question', backref='asked', lazy=True)
+	question = db.relationship('Question', backref='question', lazy=True)
+	userdetails = db.relationship('UserDetail', backref='details', uselist=False, cascade="all, delete", lazy=True)
 
 	# set getstarted modal seen
 	def set_password(self, password):
@@ -62,14 +63,16 @@ class User(UserMixin, db.Model):
 		db.session.commit()
 		return True
 
-class UserDetails(db.Model):
+class UserDetail(db.Model):
 	__tablename__ = 'user_detail'
-	id = db.Column(db.Integer, auto_increment=True)
+	id = db.Column(db.Integer, primary_key=True)
 	user_uuid = db.Column(db.Integer, db.ForeignKey('user.uuid', ondelete="CASCADE"))
 	receive_email = db.Column(db.Boolean, default=True)
 	email_confirmed = db.Column(db.Boolean, default=False)
-	login_type = db.Column(db.Integer, db.ForeignKey('login_type.id'))
+	login_type = db.Column(db.Integer, db.ForeignKey('login_type.id')) # 1 - email, 2 - google, 3 - twitter
+	'''
 	user_type = db.Column(db.Integer, db.ForeignKey('user_type.id'))
+	'''
 	date_joined = db.Column(db.DateTime, default=datetime.utcnow)
 	full_name = db.Column(db.String(255), index=True)
 	avatar = db.Column(db.String(200))
@@ -82,18 +85,19 @@ class Channel(db.Model):
 	created_by = db.Column(db.Integer, db.ForeignKey('user.uuid'))
 	title = db.Column(db.String(255), nullable=False, index=True)
 	description = db.Column(db.Text, nullable=True)
-	questions = db.relationship('Question', backref='question', cascade="all, delete",lazy=True)
+	questions = db.relationship('Question', backref='quest', cascade="all, delete",lazy=True)
 
 class Question(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
 	key = db.Column(db.String(128), unique=True)
 	channel_key = db.Column(db.Integer, db.ForeignKey('channel.key', ondelete="CASCADE"))
+	created_by = db.Column(db.Integer, db.ForeignKey('user.uuid'))
 	text = db.Column(db.String(255), nullable=False)
 	answer_page = db.Column(db.String(128))
 	answer_text = db.Column(db.Text)
 	timestamp = db.Column(db.DateTime, default=datetime.utcnow)
 	favourite = db.Column(db.Boolean, default=False)
-	activities = db.relationship('Activity', backref='current_question', lazy=True)
+	activities = db.relationship('Activity', backref='question', lazy=True)
 
 class Tracker(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
@@ -104,8 +108,8 @@ class Activity(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
 	activity_id = db.Column(db.Integer, unique=True)
 	user_uuid = db.Column(db.Integer, db.ForeignKey('user.uuid'))
-	channel_id = db.Column(db.Integer, db.ForeignKey('channel.channel_id'))
-	current_question = db.Column(db.Integer, db.ForeignKey('Question.key'))
+	channel_id = db.Column(db.Integer, db.ForeignKey('channel.key'))
+	current_question = db.Column(db.Integer, db.ForeignKey('question.key'))
 	started_date = db.Column(db.Integer, default=datetime.utcnow)
 	in_progress = db.Column(db.Boolean, default=True)
 
@@ -113,16 +117,15 @@ class Activity(db.Model):
 class LoginType(db.Model):
 	__tablename__ = 'login_type'
 	id = db.Column(db.Integer, primary_key=True)
-	type = db.Column(db.String(128), nullable=False) # google, email, twitter
-	users = db.relationship('UserDetails', backref='logintype', lazy=True)
-
+	type = db.Column(db.String(128), nullable=False) # 1 - email, 2 - google, 3 - twitter
+	users = db.relationship('UserDetail', backref='logintype', lazy=True)
+'''
 class UserType(db.Model):
 	__tablename__ = 'user_type'
 	id = db.Column(db.Integer, primary_key=True)
 	type = db.Column(db.String(128), nullable=False) # google, email, twitter
-	users = db.relationship('UserDetails', backref='logintype', lazy=True)
-
-
+	users = db.relationship('UserDetail', backref='logintype', lazy=True)
+'''
 @login_manager.user_loader
 def load_user(user_id):
 	return User.query.get(int(user_id))

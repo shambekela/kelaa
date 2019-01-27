@@ -5,8 +5,8 @@ from requests_oauthlib import OAuth2Session
 from requests.exceptions import HTTPError
 from config import Auth
 from app import db
-from app.models import User
-import json, uuid, sys
+from app.models import User, UserDetail
+import json, uuid, sys, string
 
 def get_google_auth(state=None, token=None):
 	if token:
@@ -61,20 +61,30 @@ def callback():
 
 		if resp.status_code==200:
 			user_data = resp.json()
+			print(user_data)
 			email = user_data['email']
 			user = User.query.filter_by(email=email).first()
+			detail = None
 			if user is None:
 				uud = (uuid.uuid4().int & (1<<29)-1)
 				user = User()
+				detail = UserDetail()
 				user.email = email
 				user.uuid = uud
+				detail.user_uuid = uud
+			else:
+				detail = UserDetail.query.filter_by(user_uuid = user.uuid).first()
 				
 			user.username = user_data['family_name']
-			user.tokens = json.dumps(token)
-			user.avatar = user_data['picture']
-			user.confirmed = True 
+			
+			detail.tokens = json.dumps(token)
+			detail.avatar = user_data['picture']
+			detail.full_name = string.capwords(user_data['given_name'] + ' ' + user_data['family_name'])
+			detail.email_confirmed = True 
+			detail.login_type = 2
 
 			db.session.add(user)
+			db.session.add(detail)
 			db.session.commit()
 			login_user(user, remember=True)
 			return redirect(url_for('main.home'))

@@ -3,7 +3,7 @@ from app.auth import auth
 from app.auth.forms import LoginForm, RegisterForm, PasswordResetRequestForm, PasswordResetForm
 from app.auth.utils import send_email, send_reset_email
 from app import db
-from app.models import User
+from app.models import User, UserDetail
 import uuid
 from flask_login import login_user, logout_user, login_required, current_user
 
@@ -51,9 +51,11 @@ def register():
         unique_id = uuid.uuid4().int & (1<<29)-1
         user = User(username=form.username.data, 
             uuid = unique_id,
-            email=form.email.data,
-            login_type=0)
+            email=form.email.data)
+        details = UserDetail(user_uuid=unique_id,
+            login_type=1) 
         user.set_password(form.password.data)
+        user.userdetails.append(details)
 
         db.session.add(user)
         db.session.commit()
