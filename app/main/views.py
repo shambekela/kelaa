@@ -22,7 +22,7 @@ def landing():
 def home():
 	return render_template('home.html')
 
-@main.route('/channel/<channel_key>')
+@main.route('/c/<channel_key>')
 @login_required
 def channel(channel_key):
 	t = []
@@ -37,4 +37,9 @@ def channel(channel_key):
 			break
 		count += 1
 
-	return render_template('/channel.html', tweet=t)
+	return render_template('/channel.html', tweet=t, channel=channel_key)
+
+@main.route('/c/<channel_key>/add/')
+def add_question(channel_key):
+
+	return render_template('add_question.html')
