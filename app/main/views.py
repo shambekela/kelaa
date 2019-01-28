@@ -32,7 +32,6 @@ def channel(channel_key):
 	api = tweepy.API(auth)
 	for tweets in tweepy.Cursor(api.search,q="#success", result_type='mixed',count=15, lang="en", tweet_mode='extended').items():
 		t.insert(0, (tweets.full_text))
-		print('added')
 		if count > 35:
 			break
 		count += 1
@@ -41,5 +40,8 @@ def channel(channel_key):
 
 @main.route('/c/<channel_key>/add/')
 def add_question(channel_key):
-
 	return render_template('add_question.html')
+
+@main.route('/profile/<username>')
+def profile(username):
+	return render_template('profile.html')
