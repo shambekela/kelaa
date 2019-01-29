@@ -13,70 +13,74 @@
 
 {% block main %}
     <div class="container main">
-    	<div class="row">
-    		<div class="col-md-6 m-auto text-right pt-4 main-option-container">
-    			<button class="btn btn-primary btn-sm main-add-button" type="button" data-toggle="collapse" data-target="#addchannelCollapse" aria-expanded="false" aria-controls="addchannelCollapse"><i class="fas fa-plus"></i> Add new channel</button>
-				<div class="collapse pt-3 pb-0" id="addchannelCollapse">
-				  <div class="card card-body">
-				    <form>
-				    	<div class="form-group row">
-				    		<div class="col-sm-2">
-				    			<label class="control-label">Title</label>
-				    		</div>
-				    		<div class="col">
-				    			<input type="text" class="form-control" name="">
-				    		</div>
-				    	</div>
-				    	<div class="form-group row">
-				    		<div class="col-sm-2">
-				    			<label class="control-label">Description</label>
-				    		</div>
-				    		<div class="col">
-				    			<textarea class="form-control"></textarea>
-				    		</div>
-				    	</div>
-				    </form>
-				  </div>
-	    		</div>
+    	<div class="row justify-content-center">
+    		<div class="col-md-8 m-auto pb-2 pt-2">
+    			
+    		</div>
+    	</div>
+    	<div class="row justify-content-center">
+    		<div class="col-md-8 main-option-container">
+    			<h2 class="d-inline display-4">Your activity</h2>
+    			<div class="text-right">
+    				<button class="btn btn-primary m-auto btn-sm main-add-button" data-toggle="modal" data-target="#new-channel-modal"><i class="fas fa-plus"></i> Add new channel</button>
+    			</div>
     		</div>
     	</div>
     	<div class="row justify-content-center main-card-container">
-			<div class="col-md-6">
-				{% for a in range(1, 6) %}
-    			<div class="row">
-    				<div class="col">
-    					<div class="card main-card">
-		    				<div class="card-body">
-		    					<div class="row d-flex">
-		    						<div class="col-md-10">
-		    							<div class="card-text h5"><a href="#">Introduction to marketing</a> </div>
-		    							{% set bb = (37/(a)) %}
-		    							<div class="d-flex justify-content-between">
-		    								<div class="small main-card-question-indicator">{{ bb |round|int }} questions</div>
-		    								<div class="small main-card-last-added">Last added: 3 days ago</div>
-		    							</div>
-		    						</div>
-		    						<div class="col-md-2 text-right">
-		    							<div class="dropdown">
-										  <a id="dropdownMenuButton" data-toggle="dropdown">
-										    <i class="fas fa-ellipsis-v"></i>
-										  </a>
-										  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-										    <a class="dropdown-item" href="#">Edit</a>
-										    <a class="dropdown-item" href="#">Delete</a>
-										  </div>
-										</div>
-		    						</div>
-		    					</div>
-		    				</div>
-		    				<a href="{{ url_for('main.channel', channel_key=bb) }}"><span></span></a>
-		    			</div>
-    				</div>
-    			</div>
-    			{% endfor %}
-    		</div>
+			{% for a in range(1, 6) %}
+				<div class="col-md-8">
+					<div class="card main-card">
+						<div class="card-body">
+							<div class="row d-flex">
+								<div class="col-md-10">
+									{% set bb = (37/(5)) %}
+									<div class="card-text h5"><a href="{{ url_for('main.channel', channel_key=bb)}}" class="channel-title">Introduction to marketing</a> </div>
+									<div class="d-flex justify-content-between">
+										<div class="small main-card-question-indicator">{{ bb |round|int }} questions</div>
+										<div class="small main-card-last-added">Last added: 3 days ago</div>
+									</div>
+								</div>
+								<div class="col-md-2 text-right">
+									<div class="dropdown d-none ellipsis">
+									  <a id="dropdownMenuButton" data-toggle="dropdown">
+									    <i class="fas fa-ellipsis-v"></i>
+									  </a>
+									  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+									    <a class="dropdown-item" href="#">Edit</a>
+									    <a class="dropdown-item" href="#">Delete</a>
+									  </div>
+									</div>
+								</div>
+							</div>
+						</div>
+		    		</div>
+				</div>
+			{% endfor %}
     	</div>
     </div>
+
+    <!-- add new channel modal -->
+	<div class="modal fade bd-example-modal-lg" id="new-channel-modal" tabindex="-1" role="dialog" aria-hidden="true">
+	  <div class="modal-dialog modal-dialog-centered" role="document">
+	    <div class="modal-content bg-success">
+	      <div class="modal-header">
+	        <h5 class="modal-title" id="new-channel-modal-label">New channel </h5>
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	          <span aria-hidden="true">&times;</span>
+	        </button>
+	      </div>
+	      <div class="modal-body">
+	      	<div class="container">
+	      		
+	      	</div>
+	      </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+	        <button type="button" class="btn btn-primary">Save changes</button>
+	      </div>
+	    </div>
+	  </div>
+	</div>
 {% endblock main %}
 
 {% block footer %}

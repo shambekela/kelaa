@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% import "bootstrap/wtf.html" as wtf %}
 
-{% block title %} {{super()}}| Add a question {% endblock %}
+{% block title %} {{super()}} Add a question {% endblock %}
 
 {% block head %}
 	{{ super() }}
@@ -13,7 +13,34 @@
 
 {% block main %}
     <div class="container main">
-    	profile page 
+    	<div class="row justify-content-center">
+    		<div class="offset-md-2 col-md-6 pb-2 pt-2">
+    			<h4>Profile</h4>
+    		</div>
+    	</div>
+    	<div class="row justify-content-center">
+            <div class="col-md-2 pb-2">
+                <ul class="nav flex-column nav-pills">
+                    <li class="nav-item">
+                        <a class="nav-link " href="#">Your account</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link " href="#">Security</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active " href="#">Delete account</a>
+                    </li>
+                </ul>
+            </div>
+    		<div class="col-md-6">
+    			{{ wtf.form_field(form.full_name)}}
+    			{{ wtf.form_field(form.username)}}
+    			{{ wtf.form_field(form.email)}}
+    			{{ wtf.form_field(form.date_joined)}}
+    			{{ wtf.form_field(form.receive_email)}}
+    			{{ wtf.form_field(form.update, class="btn btn-primary")}}
+    		</div>
+    	</div> 
     </div>
 {% endblock main %}
 

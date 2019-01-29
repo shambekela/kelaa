@@ -41,23 +41,19 @@ div.main-card a span {
   z-index: 1;
 }
 
+a.channel-title:hover {
+	text-decoration: none;
+}
+
 .main-card:hover {
 	border-color: #999;
 }
 
-/** channel.html **/
-
-/*
-div.question-card {
-	border: 0px;
-}
-
-div.question-card .card-body {
-	padding-top: 0.75rem;
-	padding-bottom: 0.75rem;
-	border-top: 1px solid #dee2e6;
-}
-*/
 div.question-card .card-body .card-text a:hover {
 	text-decoration: none;
+}
+
+/** add question .html **/
+textarea {
+  resize: none;
 }
