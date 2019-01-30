@@ -21,45 +21,25 @@
     		</div>
     	</div>
     	<div class="row">
-    		<div class="col-md-10 m-auto pb-2 pt-2">
+    		<div class="col-md-8 m-auto pb-2 pt-2">
     			<h4>Introduction to Marketing</h4>
     		</div>
     	</div>
     	<div class="row justify-content-center question-card-container">
-			<div class="col-md-10">
-				<div class="card-columns">
-    				<div class="card question-card">
-	    				<div class="card-body">
-	    					<div class="row d-flex">
-	    						<div class="card-text"><a href="#">#Success in management requires learning as fast</a> </div>
-	    					</div>
-	    				</div>
-	    				<a href="{{ url_for('main.channel', channel_key=bb) }}"><span></span></a>
-	    			</div>
-    				<div class="card question-card">
-	    				<div class="card-body">
-	    					<div class="row d-flex">
-	    						<div class="card-text"><a href="#">How To Be Successful: https://t.co/QdViajes2z #tech #startups #career #success #happi</a> </div>
-	    					</div>
-	    				</div>
-	    				<a href="{{ url_for('main.channel', channel_key=bb) }}"><span></span></a>
-	    			</div>
-    				<div class="card question-card">
-	    				<div class="card-body">
-	    					<div class="row d-flex">
-	    						<div class="card-text"><a href="#">RT @johnsonliz959: RT htt</a> </div>
-	    					</div>
-	    				</div>
-	    				<a href="{{ url_for('main.channel', channel_key=bb) }}"><span></span></a>
-	    			</div>
-    				<div class="card question-card">
-	    				<div class="card-body">
-	    					<div class="row d-flex">
-	    						<div class="card-text"><a href="#">RT @WisdomFighters: “My father used to say that it’s never too late to do anything you want</a> </div>
-	    					</div>
-	    				</div>
-	    				<a href="{{ url_for('main.channel', channel_key=bb) }}"><span></span></a>
-	    			</div>
+			<div class="col-md-8">
+				<div class="">
+    				{% for a in range(1, 5) %}
+    					<div class="card question-card">
+		    				<div class="card-body">
+		    					<div class="row d-flex">
+		    						<div class="card-text ml-2">
+		    							<a href="#">#Success in management requires learning as fast</a> 
+		    						</div>
+		    					</div>
+		    				</div>
+		    				<a href="{{ url_for('main.channel', channel_key=bb) }}"><span></span></a>
+		    			</div>
+    				{% endfor %}
     			</div>
     		</div>
     	</div>
@@ -75,7 +55,7 @@
 	          <span aria-hidden="true">&times;</span>
 	        </button>
 	      </div>
-	      <div class="modal-body bg-secondary text-light">
+	      <div class="modal-body text-light">
 	        <div id="carouselExampleControls" class="carousel slide" data-interval="false">
 			  <div class="carousel-inner p-5 text-center">
 			    {% if tweet %}

@@ -13,6 +13,11 @@
 
 {% block main %}
     <div class="container main">
+        <div class="row">
+            <div class="col-md-10 m-auto text-right p-3 channel-option-container">
+                <a href="{{url_for('main.channel', channel_key=channel_key)}}" class="float-left btn btn-outline-secondary btn-sm"><i class="fas fa-long-arrow-alt-left"></i> Back</a>
+            </div>
+        </div>
     	<div class="row">
     		<div class="col-md-6 m-auto pb-2 pt-2">
     			<h4>Add a question</h4>
@@ -22,7 +27,7 @@
     		<div class="col-md-6">
     			{{ wtf.form_field(form.question) }}
 		    	{{ wtf.form_field(form.answer_page) }}
-		    	{{ wtf.form_field(form.answer, rows="8") }}
+		    	{{ wtf.form_field(form.answer, rows="5") }}
 		    	{{ wtf.form_field(form.submit,  class="btn btn-primary btn-block") }}
     		</div>
     	</div>

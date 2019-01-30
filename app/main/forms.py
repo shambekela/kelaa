@@ -11,6 +11,11 @@ class ProfileForm(FlaskForm):
 	receive_email = BooleanField('Subscriber to email notification', validators=[])
 	update = SubmitField('update')
 
+class AddChannelForm(FlaskForm):
+	channel = StringField('Channel', validators=[DataRequired(), Length(4, 128)])
+	description = StringField('Description', widget=TextArea())
+	submit = SubmitField('Done')
+
 class AddQuestionForm(FlaskForm):
 	question = StringField('Question', validators=[DataRequired()])
 	answer_page = StringField('Answer page')

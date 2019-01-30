@@ -1,7 +1,7 @@
 from app import db, moment
 from app.main import main
 from app.models import User
-from app.main.forms import ProfileForm, AddQuestionForm
+from app.main.forms import ProfileForm, AddQuestionForm, AddChannelForm
 
 from flask import render_template, current_app, request, redirect, url_for, jsonify, session
 from flask_login import current_user, login_required, logout_user
@@ -22,7 +22,14 @@ def landing():
 @main.route('/home')
 @login_required
 def home():
-	return render_template('home.html')
+	form = AddChannelForm()
+
+	if form.validate_on_submit():
+		pass
+
+	articles = [('Introduction to marketing'), ('Finance for CEOs'), ('Atomic Habits - James Clear')]
+
+	return render_template('home.html', form=form, articles=articles)
 
 @main.route('/c/<channel_key>')
 @login_required
@@ -38,7 +45,7 @@ def add_question(channel_key):
 	if form.validate_on_submit():
 		pass
 		
-	return render_template('add_question.html', form=form)
+	return render_template('add_question.html', form=form, channel_key=channel_key)
 
 @main.route('/profile/<username>')
 def profile(username):

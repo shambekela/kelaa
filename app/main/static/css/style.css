@@ -7,6 +7,10 @@ a.app-title{
 	text-decoration: none
 }
 
+div.modal-content {
+	background-color: #d2c7c7;
+}
+
 /** home.html **/
 
 div.top-navbar {
@@ -53,7 +57,26 @@ div.question-card .card-body .card-text a:hover {
 	text-decoration: none;
 }
 
-/** add question .html **/
+
+/** channel.html **/
+
+div.question-card .card-body {
+	padding: 15px;
+	margin-left: 5px;
+}
+
+div.question-card {
+	background-color: #d2c7c724;	
+	margin: 4px;
+	border: 0;
+}
+
+div.question-card .card-text a {
+	color: #666;
+}
+
+div.question-card .card-body{}
+/** add question.html **/
 textarea {
   resize: none;
 }
