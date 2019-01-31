@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %} {{super()}}| Add a question {% endblock %}
+
+{% block head %}
+	{{ super() }}
+    <link rel="stylesheet" type="text/css" href="{{ url_for('main.static', filename='css/landing.css')}}">
+{% endblock head %}
+
+{% block header %}
+    <div class="top-navbar">
+        <div class="container">
+            <div class="row">
+              <div class="col form-inline">
+                    <h4 class="font-weight-normal ">
+                        <a href="{{ url_for('main.home')}}" class="text-light app-title"><i class="fas fa-brain"></i> <strong>Kelaa</strong></a>
+                    </h4>
+              </div>
+
+              <div class="m-auto text-right col">
+                <a class="p-2 text-white-50 d-sm-inline" href="{{ url_for('auth.login')}}">Login</a>
+                <a class="p-2 text-white-50 d-sm-inline" href="{{ url_for('auth.register')}}">Sign up</a>
+            </div>
+          </div>
+        </div>                
+    </div>
+{% endblock header %}
+
+{% block main %}
+    <div class="container main">
+        <div class="row"> 
+            <div class="row p-5">
+                <div class="col text-center m-auto">
+                    <p class="h1 font-weight-bold">Ask the right questions while studying.</p>
+                    
+                </div>
+                <div class="col-md-8">
+                    <div class="issa-screenshot pb-2">
+                        <img class="landing-screenshot" src="{{ url_for('main.static', filename='assets/26661.jpg')}}">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock main %}
+
+{% block footer %}
+    
+{% endblock footer %}
+
+{% block scripts %}
+    {{ super() }}
+{% endblock scripts %}

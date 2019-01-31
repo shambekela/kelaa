@@ -15,7 +15,7 @@ def before_request():
 # landing page 
 @main.route('/')
 def landing():
-	return 'Landing'
+	return render_template('landing.html')
 
 
 # homepage
