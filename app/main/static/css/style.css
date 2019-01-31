@@ -1,3 +1,10 @@
+* {
+	font-family: 'Assistant', sans-serif;
+}
+
+body {
+	background-color: #f1efef82;
+}
 
 .modal-backdrop.show {
 	opacity: 0.9;
@@ -5,10 +12,6 @@
 
 a.app-title{
 	text-decoration: none
-}
-
-div.modal-content {
-	background-color: #d2c7c7;
 }
 
 /** home.html **/
