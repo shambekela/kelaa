@@ -14,9 +14,6 @@ class LoginForm(FlaskForm):
 		if user is None:
 			raise ValidationError('Email does not exist.')
 
-		if 'gmail' in email.data:
-			raise ValidationError('For Google accounts. Please use log in with google.')
-
 	def validate_password(self, password):
 		user = User.query.filter_by(email=self.email.data).first()
 		if user and 'gmail' not in user.email and not user.check_password(password.data):
@@ -46,9 +43,6 @@ class PasswordResetRequestForm(FlaskForm):
 		user = User.query.filter_by(email=email.data).first()
 		if user is None:
 			raise ValidationError('Email does not exists. Go to sign up page to register this email.')
-		
-		if 'gmail' in email.data:
-			raise ValidationError('For Google accounts. Please use sign up with google.')
 		
 
 class PasswordResetForm(FlaskForm):

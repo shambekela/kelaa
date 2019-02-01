@@ -1,7 +1,7 @@
 {% macro user_profile(active_page, current_user) %}
     
     {% set navigation_bar = [       
-        ('account', 'My account'),
+        ('profile', 'My account'),
         ('security', 'Security'),
         ('delete', 'Delete account')
     ] -%}
@@ -12,7 +12,7 @@
         {% for id, caption in navigation_bar %}
             <li class="nav-item">
                 <a {% if id == active_page %} class="nav-link active" {% else %} class="nav-link" {% endif
-              %} href="{{ url_for('main.profile', username=current_user.username) }}" >{{ caption|e }}</a>
+              %} href="{{ url_for('main.profile', username=current_user.username, page=id) }}" >{{ caption|e }}</a>
             </li>
         {% endfor %}
     </ul>

@@ -9,6 +9,11 @@
 
 {% block header %}
     {{ super() }}
+    {% if not current_user.userdetails.email_confirmed %}
+    	<div style="background-color: #fff3cd;" class="p-2">
+	    	<p class="m-auto text-center">Please confirm your email address within the next 24 hours. <a href="#" class="font-weight-bold">Resend email.</a></p>
+	    </div>
+    {% endif %}
 {% endblock header %}
 
 {% block main %}

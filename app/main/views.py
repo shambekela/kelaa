@@ -34,7 +34,7 @@ def home():
 @main.route('/c/<channel_key>')
 @login_required
 def channel(channel_key):
-	t = None
+	t = [('Introduction to marketing'), ('Finance for CEOs'), ('Atomic Habits - James Clear')]
 	return render_template('/channel.html', tweet=t, channel=channel_key)
 
 ''' add question controller '''
@@ -47,7 +47,7 @@ def add_question(channel_key):
 		
 	return render_template('add_question.html', form=form, channel_key=channel_key)
 
-@main.route('/profile/<username>')
+@main.route('/<username>/profile')
 def profile(username):
 	form = ProfileForm()
 

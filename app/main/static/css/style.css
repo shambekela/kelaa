@@ -23,6 +23,12 @@ img.landing-screenshot {
 	/*border-radius: 8px;*/
 }
 
+/** login.html **/
+div.authentication-card {
+	border: 0;
+	background-color: #f7f6f6;
+}
+
 /** home.html **/
 
 div.top-navbar {

@@ -48,7 +48,7 @@
     <!-- review modal -->
     <div class="modal fade bd-example-modal-lg" id="review-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 	  <div class="modal-dialog modal-dialog-centered" role="document">
-	    <div class="modal-content">
+	    <div class="modal-content bg-secondary">
 	      <div class="modal-header">
 	        <h5 class="modal-title" id="exampleModalLabel"></h5>
 	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -66,7 +66,7 @@
 			    	    	<div class="carousel-item">
 			    		{% endif %}
 				      		<p>{{ab}}</p>
-				      		<a href="{{ url_for('main.home') }}" class="btn btn-primary">View more</a>
+				      		<a href="{{ url_for('main.home') }}" class="btn btn-sm btn-primary">View more</a>
 				    	</div>
 			    	{% endfor %}
 			    
@@ -82,9 +82,9 @@
 			  </a>
 			</div>
 	      </div>
-	      <div class="modal-footer">
+	      <div class="modal-body m-auto">
 	        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-	        <button type="button" class="btn btn-primary">Save changes</button>
+	        <button type="button" class="btn btn-secondary">Done</button>
 	      </div>
 	    </div>
 	  </div>

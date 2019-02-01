@@ -8,19 +8,27 @@
 {% endblock head %}
 
 {% block header %}
-	<div class="container">
-					  	  
+	<div class="pt-4 pb-4">
+        <div class="container">
+            <div class="row">
+              <div class="col form-inline justify-content-center">
+                    <h1 class="font-weight-normal ">
+                        <a href="{{ url_for('main.home')}}" class="text-dark app-title"><i class="fas fa-brain"></i> <strong>Kelaa</strong></a>
+                    </h1>
+              </div>
+          </div>
+        </div>                
     </div>
 {% endblock header %}
 
 {% block main %}
 	{{ super() }}
     <div class="container">
-	    <div class="row m-auto justify-content-center pt-4">
-	    	<div class="col-md-6 col-sm-12 col-xs-12">
-	    		<div class="card m-auto" >
+	    <div class="row m-auto justify-content-center">
+	    	<div class="col-md-5 col-sm-8 col-xs-8">
+	    		<div class="card m-auto authentication-card" >
 	    			<div class="card-body">
-	    				<p class="auth-page-heading h4 text-muted">Welcome back</p>
+	    				<p class="h5 text-muted text-center">Please sign in</p>
 	    				<hr>
 	    				<div class="mt-2">
 					    	{% with messages = get_flashed_messages(with_categories=true) %}
@@ -42,18 +50,11 @@
 							{{ wtf.form_field(form.password) }}
 							{{ wtf.form_field(form.submit, class='btn btn-primary btn-block') }}
 	    				</form>
-	    				<p class="text-center mt-2 mb-0 issa-header-bold small">OR</p>
-	    				<form class="pt-2" action="{{ url_for('api.login') }}" method="POST" >
-			        		<input type="hidden" name="timezone" id="timezone_google">
-			        		<button type="submit" class="btn btn-block btn-outline-primary">
-					        	<img class="" src="{{ url_for('main.static', filename='assets/google.svg') }}"> Log in with Google
-					        </button>
-			        	</form>
 	                </div>
 	                <div class="card-body pt-2">
 	    				<div class="">
-	    					<p class="mb-1 issa-header"><a href="{{ url_for('auth.password_reset_request') }}">🔑 Forgot your password ?</a></p>
-	    					<p class="issa-header">💡 New to Issa challenge ? <a href="{{ url_for('auth.register') }}">Sign up.</a></p>
+	    					<p class="mb-1"><a href="{{ url_for('auth.password_reset_request') }}">Forgot your password ?</a></p>
+	    					<p>New to Kelaa  ? <a href="{{ url_for('auth.register') }}">Sign up.</a></p>
 	    				</div>
 	                </div>
 	            </div>

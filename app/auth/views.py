@@ -9,10 +9,7 @@ from flask_login import login_user, logout_user, login_required, current_user
 
 @auth.before_request
 def before_request():
-    if current_user.is_authenticated:
-        if request.endpoint == 'auth.confirm_account' and current_user.confirmed:
-            return redirect(url_for('main.home'))
-
+    pass
 
 @auth.route('/login', methods=['GET', 'POST'])
 def login():
@@ -55,9 +52,9 @@ def register():
         details = UserDetail(user_uuid=unique_id,
             login_type=1) 
         user.set_password(form.password.data)
-        user.userdetails.append(details)
 
         db.session.add(user)
+        db.session.add(details)
         db.session.commit()
 
         newuser = User.query.filter_by(uuid = unique_id).first()
@@ -97,11 +94,6 @@ def reset_password(token):
             return redirect(url_for('main.home'))
 
     return render_template('account/reset_password.html', form=form)
-
-@auth.route('/confirm_account')
-@login_required
-def confirm_account():
-    return render_template('account/confirm_account.html')
 
 @auth.route('/confirm/<token>')
 @login_required
