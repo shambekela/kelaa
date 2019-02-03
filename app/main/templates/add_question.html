@@ -9,13 +9,16 @@
 
 {% block header %}
     {{ super() }}
+    <div style="background-color: #e7d5ff;" class="p-2">
+        <p class="m-auto font-weight-bold text-center">Add to {{ channel.title }}</a></p>
+    </div>
 {% endblock header %}
 
 {% block main %}
     <div class="container main">
         <div class="row">
             <div class="col-md-10 m-auto text-right pt-3 channel-option-container">
-                <a href="{{url_for('main.channel', channel_key=channel_key)}}" class="float-left btn btn-outline-secondary btn-sm"><i class="fas fa-long-arrow-alt-left"></i> Back</a>
+                <a href="{{url_for('main.channel', channel_key=channel.key)}}" class="float-left btn btn-outline-secondary btn-sm"><i class="fas fa-long-arrow-alt-left"></i> Back</a>
             </div>
         </div>
     	<div class="row">
@@ -25,7 +28,10 @@
     	</div>
     	<div class="row justify-content-center">
     		<div class="col-md-6">
-    			<form>
+                {% include 'includes/message_flash.html' %}
+    			<form method="POST" action="{{ url_for('main.add_question', channel_key=channel.key) }}">
+                    {{ form.hidden_tag() }}
+                    {{ wtf.form_errors(form, hiddens="only") }}
                     {{ wtf.form_field(form.question) }}
                     {{ wtf.form_field(form.answer_page) }}
                     {{ wtf.form_field(form.answer, rows="5") }}

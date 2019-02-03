@@ -16,30 +16,43 @@
     	<div class="row">
     		<div class="col-md-10 m-auto text-right p-3 channel-option-container">
     			<a href="{{url_for('main.home')}}" class="float-left btn btn-outline-secondary btn-sm"><i class="fas fa-long-arrow-alt-left"></i> Back</a>
-    			<a class="btn btn-primary btn-sm main-add-button" href="{{ url_for('main.add_question', channel_key=channel)}}"><i class="fas fa-plus"></i> Add new question</a>
+    			<a class="btn btn-primary btn-sm main-add-button" href="{{ url_for('main.add_question', channel_key=channel.key)}}"><i class="fas fa-plus"></i> Add new question</a>
     			<button class="btn btn-primary btn-sm main-review-button" data-toggle="modal" data-target="#review-modal"><i class="fas fa-play"></i> Start a review</button>
     		</div>
     	</div>
     	<div class="row">
     		<div class="col-md-8 m-auto pb-2 pt-2">
-    			<h4>Introduction to Marketing</h4>
+    			<h4>{{ channel.title }}</h4>
     		</div>
     	</div>
     	<div class="row justify-content-center question-card-container">
 			<div class="col-md-8">
 				<div class="">
-    				{% for a in range(1, 5) %}
-    					<div class="card question-card">
+    				{% if questions %}
+    				    {% for question in questions %}
+	    					<div class="card question-card">
+			    				<div class="card-body">
+			    					<div class="row d-flex">
+			    						<div class="card-text ml-2" >
+			    							<a class="m-0" data-trigger="focus" data-toggle="popover" data-content="{{ question.answer_text}}">{{ question.text }}</a>
+			    						</div>
+			    					</div>
+			    				</div>
+			    				<a href="#"><span></span></a>
+			    			</div>
+	    				{% endfor %}
+	    			{% else %}
+	    			    <div class="card question-card">
 		    				<div class="card-body">
-		    					<div class="row d-flex">
+		    					<div class="row justify-content-center">
 		    						<div class="card-text ml-2">
-		    							<a href="#">#Success in management requires learning as fast</a> 
+		    							<p class="h4">No questions</p> 
 		    						</div>
 		    					</div>
 		    				</div>
-		    				<a href="{{ url_for('main.channel', channel_key=bb) }}"><span></span></a>
+		    				<a href="#"><span></span></a>
 		    			</div>
-    				{% endfor %}
+    				{% endif %}
     			</div>
     		</div>
     	</div>
@@ -58,14 +71,14 @@
 	      <div class="modal-body text-light">
 	        <div id="carouselExampleControls" class="carousel slide" data-interval="false">
 			  <div class="carousel-inner p-5 text-center">
-			    {% if tweet %}
-			        {% for ab in tweet %}
+			    {% if questions %}
+			        {% for question in questions %}
 			    		{% if loop.index == 1 %}
 			    			<div class="carousel-item active">
 			    		{% else %}
 			    	    	<div class="carousel-item">
 			    		{% endif %}
-				      		<p>{{ab}}</p>
+				      		<p>{{ question.text }}</p>
 				      		<a href="{{ url_for('main.home') }}" class="btn btn-sm btn-primary">View more</a>
 				    	</div>
 			    	{% endfor %}
@@ -97,4 +110,10 @@
 
 {% block scripts %}
     {{ super() }}
+    <script type="text/javascript">
+    	$('[data-toggle="popover"]').popover();
+    	$('.popover-dismiss').popover({
+		  trigger: 'focus'
+		})
+    </script>
 {% endblock scripts %}

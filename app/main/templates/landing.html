@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% import "bootstrap/wtf.html" as wtf %}
 
-{% block title %} {{super()}}| Add a question {% endblock %}
+{% block title %} {{super()}} Study with questions {% endblock %}
 
 {% block head %}
 	{{ super() }}
@@ -9,20 +9,41 @@
 {% endblock head %}
 
 {% block header %}
-    {% include 'includes/header.html' %}
+    {% include 'includes/not_logged_header.html' %}
 {% endblock header %}
 
 {% block main %}
     <div class="container main">
-        <div class="row"> 
-            <div class="row p-5">
-                <div class="col text-center m-auto">
-                    <p class="h1 font-weight-bold">Ask the right questions while studying.</p>
-                    
+        <div class="row justify-content-center mt-3">
+            <div class="col-md-8 text-center m-auto">
+                <p class="display-4 font-weight-bold">Questions help you learn better.</p>
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col-md-7">
+                            <p class="text-muted lead">Kelaa helps you keep all questions you come up with while studying in one place for later review.</p>
+                        </div>
+                    </div>
                 </div>
-                <div class="col-md-8">
-                    <div class="issa-screenshot pb-2">
-                        <img class="landing-screenshot" src="{{ url_for('main.static', filename='assets/26661.jpg')}}">
+                <a href="{{ url_for('auth.login') }}" class="btn btn-primary">Get started</a>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-md-6 text-center">
+                <div class="pb-2">
+                    <img class="landing-screenshot" src="{{ url_for('main.static', filename='assets/26661.jpg')}}">
+                </div>
+            </div>
+        </div>
+        <div class="row mt-3 mb-3 justify-content-center">
+            <div class="col-md-7">
+                <div class="card">
+                    <div class="card-body">
+                        <p class="card-text h2">The idea behind Kelaa</p>
+                        <hr>
+                        <p>Active learning involves engaging with the material your study.</p>
+                        <p>A proven way to learn actively is to come up with questions while reading through study material. <br>Questions can one answer or long answer questions.</p>
+                        <p>Kelaa allows you create study questions as you along.</p>
+                        <p>At the same time, that type of engaged reading that helps you identify key points and reframing how a question could be asked of them really helps with information retention and understanding.</p>
                     </div>
                 </div>
             </div>
@@ -31,7 +52,7 @@
 {% endblock main %}
 
 {% block footer %}
-    
+    {{ super() }}
 {% endblock footer %}
 
 {% block scripts %}

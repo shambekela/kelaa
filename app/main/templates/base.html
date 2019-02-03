@@ -28,7 +28,7 @@
 
 						      <div class="col-auto order-sm-3 m-auto text-right">
 							    <a class="p-2 dropdown-toggle text-white-50 h6" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true">
-							        {{ current_user.username | title }}
+							        {{ current_user.username | lower }}
 						        </a>
 						        <div class="dropdown-menu dropdown-menu-right">
 						          <h6 class="dropdown-header">Signed in as {{ current_user.username}}</h6>

@@ -28,19 +28,27 @@
             </div>
           </div>
           <div class="col-md-6">
+            {% include 'includes/message_flash.html' %}
             <div class="tab-content" id="v-pills-tabContent">
               <div class="tab-pane fade show active" id="v-pills-account" role="tabpanel">
-                    <form>
+                    <form action="{{ url_for('main.profile', username=user.username)}}" method="POST">
+                        {{ form.hidden_tag() }}
+                        {{ wtf.form_errors(form, hiddens="only") }}
                         {{ wtf.form_field(form.full_name)}}
                         {{ wtf.form_field(form.username)}}
                         {{ wtf.form_field(form.email)}}
-                        {{ wtf.form_field(form.date_joined, disabled=disabled)}}
                         {{ wtf.form_field(form.receive_email)}}
                         {{ wtf.form_field(form.update, class="btn btn-primary")}}
                     </form>
               </div>
               <div class="tab-pane fade" id="v-pills-security" role="tabpanel">
-                  security
+                  <form action="{{ url_for('main.profile', username=user.username)}}" method="POST">
+                        {{ passwordform.hidden_tag() }}
+                        {{ wtf.form_errors(passwordform, hiddens="only") }}
+                        {{ wtf.form_field(passwordform.password)}}
+                        {{ wtf.form_field(passwordform.password2)}}
+                        {{ wtf.form_field(passwordform.submit, class="btn btn-primary")}}
+                  </form>
               </div>
               <div class="tab-pane fade" id="v-pills-delete" role="tabpanel">
                   delete
