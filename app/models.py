@@ -23,6 +23,7 @@ class User(UserMixin, db.Model):
 		self.password_hash = generate_password_hash(password)
 
 	def check_password(self, password):
+		print(generate_password_hash('toivotoivo'))
 		return check_password_hash(self.password_hash, password)
 
 	def generate_confirmation_token(self, expiration=3600):
@@ -86,6 +87,14 @@ class Channel(db.Model):
 	title = db.Column(db.String(255), nullable=False, index=True)
 	description = db.Column(db.Text, nullable=True)
 	questions = db.relationship('Question', backref='quest', cascade="all, delete",lazy=True)
+
+	def question_count(self):
+		que = db.session.query(Question).filter(Question.channel_key == self.key).count()
+		return que
+
+	def last_added(self):
+		date = db.session.query(Question.timestamp).filter(Question.channel_key == self.key).order_by(db.desc(Question.timestamp)).first()
+		return date
 
 class Question(db.Model):
 	id = db.Column(db.Integer, primary_key=True)

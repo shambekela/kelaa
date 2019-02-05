@@ -1,4 +1,4 @@
-from flask import render_template, flash, redirect, url_for, request
+from flask import render_template, flash, redirect, url_for, request, session
 from app.auth import auth
 from app.auth.forms import LoginForm, RegisterForm, PasswordResetRequestForm, PasswordResetForm
 from app.auth.utils import send_email, send_reset_email
@@ -35,6 +35,14 @@ def login():
 
         flash('Invalid username or password ', 'danger')
     return render_template('login.html', form=form)
+
+@auth.route('/logout')
+@login_required
+def logout():
+    logout_user()
+    session.clear()
+    return redirect(url_for('auth.login'))
+
 
 @auth.route('/register', methods=['GET', 'POST'])
 def register():

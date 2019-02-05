@@ -27,13 +27,6 @@ def login():
 	session['oauth_state'] = state
 	return redirect(auth_url)
 
-@api.route('/logout')
-@login_required
-def logout():
-	logout_user()
-	session.clear()
-	return redirect(url_for('auth.login'))
-
 @api.route('/gCallback')
 def callback():
 	if current_user is not None and current_user.is_authenticated:

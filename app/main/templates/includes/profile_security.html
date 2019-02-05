@@ -1,0 +1,8 @@
+<form action="{{ url_for('main.profile', username=user.username, tab=active_page)}}" method="POST">
+    {{ securityform.hidden_tag() }}
+    {{ wtf.form_errors(securityform, hiddens="only") }}
+    {{ wtf.form_field(securityform.oldpassword)}}
+    {{ wtf.form_field(securityform.password)}}
+    {{ wtf.form_field(securityform.password2)}}
+    {{ wtf.form_field(securityform.submit, class="btn btn-primary")}}
+</form>

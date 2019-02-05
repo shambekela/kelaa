@@ -1,7 +1,7 @@
 from app import db, moment
 from app.main import main
 from app.models import User, Channel, Question
-from app.main.forms import ProfileForm, AddQuestionForm, AddChannelForm, PasswordChangeForm
+from app.main.forms import ProfileForm, AddQuestionForm, AddChannelForm, PasswordChangeForm, DeleteAccountForm
 
 from flask import render_template, current_app, request, redirect, url_for, jsonify, session, flash
 from flask_login import current_user, login_required, logout_user
@@ -39,7 +39,7 @@ def home():
 		#return redirect(url_for('main.channel', channel_key=channel_key))
 		return redirect(url_for('main.home'))
 
-	channel = db.session.query(Channel).all() # get all channel records
+	channel = db.session.query(Channel).filter(Channel.created_by == current_user.uuid).all() # get all channel records
 
 	return render_template('home.html', form=form, channels=channel)
 
@@ -47,8 +47,8 @@ def home():
 @main.route('/c/<channel_key>')
 @login_required
 def channel(channel_key):
-	channel = db.session.query(Channel).filter(Channel.key==channel_key).first() # get active channel
-	questions = db.session.query(Question).filter(Question.channel_key==channel_key).order_by(db.desc(Question.timestamp)).all() # all questions within this active session
+	channel = db.session.query(Channel).filter(Channel.key==channel_key).filter(Channel.created_by == current_user.uuid).first() # get active channel
+	questions = db.session.query(Question).filter(Question.channel_key==channel_key).order_by(db.desc(Question.timestamp)).filter(Question.created_by==current_user.uuid).all() # all questions within this active session
 	return render_template('/channel.html', channel=channel, questions=questions)
 
 ''' add question controller '''
@@ -74,15 +74,21 @@ def add_question(channel_key):
 		
 	return render_template('add_question.html', form=form, channel=channel)
 
-@main.route('/<username>/profile', methods=['POST', 'GET'])
-def profile(username):
+@main.route('/<username>/<tab>', methods=['POST', 'GET'])
+def profile(username, tab):
 	form = ProfileForm()
-	passwordform = PasswordChangeForm(prefix='a')
+	securityform = PasswordChangeForm(prefix='a')
+	deleteform = DeleteAccountForm(prefix='b')
 	user = db.session.query(User).filter(User.username==username).first()
 
-	if passwordform.validate_on_submit():
-		print('form1')
-		
+	if securityform.validate_on_submit():
+
+		user.set_password(securityform.password.data)
+		db.session.commit()
+
+		flash('Password updated successfully', 'danger')
+		return redirect(url_for('main.profile', username=user.username, tab=tab))
+	
 	if form.validate_on_submit():
 		user.email = form.email.data
 		user.userdetails.full_name = bleach.clean(form.full_name.data)
@@ -91,8 +97,13 @@ def profile(username):
 		
 		db.session.commit()
 		flash('Profile updated successfully.', 'info')
-		return redirect(url_for('main.profile', username=user.username))
+		return redirect(url_for('main.profile', username=user.username, tab=tab))
 
+	if deleteform.validate_on_submit():
+		db.session.delete(user)
+		db.session.commit()
+
+		return redirect(url_for('auth.logout'))
 
 	if user:
 		form.email.data = user.email
@@ -100,7 +111,7 @@ def profile(username):
 		form.username.data = user.username
 		form.receive_email.data = user.userdetails.receive_email
 
-	return render_template('profile.html', form=form, user=user, passwordform=passwordform)
+	return render_template('profile.html', form=form, user=user, securityform=securityform, deleteform=deleteform, active_page=tab)
 
 ''' routes envoked by javascript '''
 

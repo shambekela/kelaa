@@ -41,8 +41,16 @@
 											<p class="text-muted small">{{ channel.description }}</p>
 										</div>
 										<div class="">
-											<div class="small main-card-question-indicator">10 questions</div>
-											<div class="small main-card-last-added">Last added: 3 days ago</div>
+											{% set count = channel.question_count() %}
+											{% set date = channel.last_added() %}
+											<div class="small main-card-question-indicator">{{ count }} question(s)</div>
+											<div class="small main-card-last-added">Last added: 
+												{% if date is none %}
+													never
+												{% else %}
+													{{ moment(date.timestamp).fromNow() }}    
+												{% endif %}
+											</div>
 										</div>
 									</div>
 									<div class="col-md-2 text-right">

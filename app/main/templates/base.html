@@ -33,8 +33,8 @@
 						        <div class="dropdown-menu dropdown-menu-right">
 						          <h6 class="dropdown-header">Signed in as {{ current_user.username}}</h6>
 						          <a class="dropdown-item d-block d-sm-none" href="#">Dashboard</a>
-						          <a class="dropdown-item" href="{{ url_for('main.profile', username=current_user.username)}}">My profile</a>
-						          <a class="dropdown-item" href="{{ url_for('api.logout') }}">Logout</a>
+						          <a class="dropdown-item" href="{{ url_for('main.profile', username=current_user.username, tab='profile')}}">My profile</a>
+						          <a class="dropdown-item" href="{{ url_for('auth.logout') }}">Logout</a>
 						        </div>
 						  	   </div>
 

@@ -1,0 +1,17 @@
+<div class="card">
+	<div class="card-body">
+		<div>
+			<p>Deleting your account will cancel your subscription and delete everything tied to your account, including habits and activities.</p>
+
+			<p>If you’re absolutely sure you want to delete your account, enter your email below and you will receive a final email to confirm.</p>
+
+			<p class="font-weight-bold">Enter your password to confirm</p>
+			<form method="POST" action="{{ url_for('main.profile', username=user.username, tab=active_page) }}">
+				{{ deleteform.hidden_tag() }}
+			    {{ wtf.form_errors(deleteform, hiddens="only") }}
+			    {{ wtf.form_field(deleteform.password)}}
+			    {{ wtf.form_field(deleteform.submit, class="btn btn-danger btn-sm")}}
+			</form>
+		</div>
+	</div>
+</div>

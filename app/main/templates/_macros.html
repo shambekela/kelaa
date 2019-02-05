@@ -12,7 +12,7 @@
         {% for id, caption in navigation_bar %}
             <li class="nav-item">
                 <a {% if id == active_page %} class="nav-link active" {% else %} class="nav-link" {% endif
-              %} href="{{ url_for('main.profile', username=current_user.username, page=id) }}" >{{ caption|e }}</a>
+              %} href="{{ url_for('main.profile', username=current_user.username, tab=id) }}" >{{ caption|e }}</a>
             </li>
         {% endfor %}
     </ul>
