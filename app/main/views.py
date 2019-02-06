@@ -41,6 +41,17 @@ def home():
 
 	channel = db.session.query(Channel).filter(Channel.created_by == current_user.uuid).all() # get all channel records
 
+	'''
+	sp = SparkPost(current_app.config['SPARKPOST_KEY'])
+
+	response = sp.transmissions.send(
+		recipients=['toivo1996@gmail.com'],
+		html='<p>Hello world</p>',
+		from_email='password@kelaa.co',
+		subject='Hello from python-sparkpost'
+	)
+	'''
+
 	return render_template('home.html', form=form, channels=channel)
 
 ''' channel controller'''

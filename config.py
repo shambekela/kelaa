@@ -15,9 +15,9 @@ class Config:
 	SECRET_KEY = os.environ.get('SECRET_KEY') or 'afafd6a5f65a6f5a65df6a5f6af65daf84df23sfa6d5fa'
 	SQLALCHEMY_TRACK_MODIFICATIONS = True
 	SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://root@localhost/kelaa'
-	SPARKPOST_KEY = os.environ.get('SPARKPOST_KEY')
+	SPARKPOST_KEY = os.environ.get('SPARKPOST_KEY') or 'ab6539162c56ffbdd3d47068c23e28dfce0f5420'
 	SPARKPOST_NOTIFICATION_EMAIL = os.environ.get('SPARKPOST_NOTIFICATION_EMAIL')
-	SPARKPOST_CONTACT_EMAIL = os.environ.get('SPARKPOST_CONTACT_EMAIL')
+	SPARKPOST_CONTACT_EMAIL = os.environ.get('SPARKPOST_CONTACT_EMAIL') or 'passwordreset@kelaa.co'
 
 	@staticmethod
 	def init_app(app):

@@ -33,8 +33,15 @@
 	    					<div class="card question-card">
 			    				<div class="card-body">
 			    					<div class="row d-flex">
-			    						<div class="card-text ml-2" >
-			    							<a class="m-0" data-trigger="focus" data-toggle="popover" data-content="{{ question.answer_text}}">{{ question.text }}</a>
+			    						<div class="card-text ml-2 mr-2" >
+			    							<a class="m-0" data-toggle="collapse" href="#question-{{ question.id}}" role="button">{{ question.text }}</a>
+			    							<div class="collapse" id="question-{{ question.id}}">
+			    								<hr>
+												<div>
+													{{ question.answer_page }}
+													{{ question.answer_text }}
+												</div>
+											</div>
 			    						</div>
 			    					</div>
 			    				</div>
