@@ -2,7 +2,7 @@ from sparkpost import SparkPost
 from flask import current_app, render_template
 
 ''' send email to user '''
-def send_email(**kwags):
+def confirm_email(**kwags):
 
 	user = kwags.get('user')
 
@@ -13,14 +13,14 @@ def send_email(**kwags):
 
 	sp = SparkPost(sparkpostkey)
 	response = sp.transmissions.send(
-	text = 'Confirm your account - Issa challenge',	
+	text = 'Confirm your account - Kelaa',	
 	recipients=[user.email],
 	html= render_template('email/confirm_email.html', **kwags),
-	from_email='Issa challenge {}'.format("<" + sparkpostemail + ">"),
+	from_email='Kelaa {}'.format("<" + sparkpostemail + ">"),
 	subject='Please confirm your email address')
 
 
-def send_reset_email(**kwags):
+def reset_password_email(**kwags):
 
 	user = kwags.get('user')
 
@@ -31,10 +31,10 @@ def send_reset_email(**kwags):
 
 	sp = SparkPost(sparkpostkey)
 	response = sp.transmissions.send(
-	text = 'Reset your password - Issa challenge',	
+	text = 'Reset your password - Kelaa',	
 	recipients=[user.email],
 	html= render_template('email/reset_email.html', **kwags),
-	from_email='Issa challenge {}'.format("<" + sparkpostemail + ">"),
+	from_email='Kelaa {}'.format("<" + sparkpostemail + ">"),
 	subject='Password Reset')
 
 	print(response)

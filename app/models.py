@@ -40,7 +40,7 @@ class User(UserMixin, db.Model):
 		if data.get('confirm') != self.uuid:
 			return False
 
-		self.confirmed = True
+		self.userdetails.email_confirmed = True
 		db.session.add(self)
 		return True
 

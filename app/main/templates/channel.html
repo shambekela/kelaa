@@ -35,15 +35,22 @@
 			    					<div class="row d-flex">
 			    						<div class="card-text ml-2 mr-2" >
 			    							<a class="m-0" data-toggle="collapse" href="#question-{{ question.id}}" role="button">{{ question.text }}</a>
-			    							<div class="collapse" id="question-{{ question.id}}">
-			    								<hr>
-												<div>
-													{{ question.answer_page }}
-													{{ question.answer_text }}
-												</div>
-											</div>
 			    						</div>
 			    					</div>
+			    				</div>
+			    				<div class="collapse" id="question-{{ question.id}}">
+			    					<div class="card-footer">
+										<div>
+											{% if (question.answer_page) %}
+											    <div>
+													<p class="text-muted">{{ question.answer_page }}</p>
+												</div>
+											{% endif %}
+											<div>
+												<p class="text-muted">{{ question.answer_text }}</p>
+											</div>
+										</div>
+									</div>
 			    				</div>
 			    				<a href="#"><span></span></a>
 			    			</div>
@@ -69,7 +76,7 @@
     <div class="modal fade bd-example-modal-lg" id="review-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 	  <div class="modal-dialog modal-dialog-centered" role="document">
 	    <div class="modal-content bg-secondary">
-	      <div class="modal-header">
+	      <div class="modal-body">
 	        <h5 class="modal-title" id="exampleModalLabel"></h5>
 	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
 	          <span aria-hidden="true">&times;</span>
@@ -77,19 +84,21 @@
 	      </div>
 	      <div class="modal-body text-light">
 	        <div id="carouselExampleControls" class="carousel slide" data-interval="false">
-			  <div class="carousel-inner p-5 text-center">
-			    {% if questions %}
+			  <div class="carousel-inner text-center">
+			  	{% if questions %}
 			        {% for question in questions %}
 			    		{% if loop.index == 1 %}
 			    			<div class="carousel-item active">
 			    		{% else %}
 			    	    	<div class="carousel-item">
 			    		{% endif %}
-				      		<p>{{ question.text }}</p>
-				      		<a href="{{ url_for('main.home') }}" class="btn btn-sm btn-primary">View more</a>
+				      		<div class="card bg-secondary">
+						    	<div class="card-body p-5">
+						    		<p class="h5">{{ question.text }}</p>
+						    	</div>
+						    </div>
 				    	</div>
 			    	{% endfor %}
-			    
 			    {% endif %}
 			  </div>
 			  <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
@@ -102,7 +111,7 @@
 			  </a>
 			</div>
 	      </div>
-	      <div class="modal-body m-auto">
+	      <div class="modal-body text-right">
 	        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
 	        <button type="button" class="btn btn-secondary">Done</button>
 	      </div>

@@ -1,7 +1,7 @@
 from flask import render_template, flash, redirect, url_for, request, session
 from app.auth import auth
 from app.auth.forms import LoginForm, RegisterForm, PasswordResetRequestForm, PasswordResetForm
-from app.auth.utils import send_email, send_reset_email
+from app.auth.utils import confirm_email, reset_password_email
 from app import db
 from app.models import User, UserDetail
 import uuid
@@ -68,10 +68,9 @@ def register():
         newuser = User.query.filter_by(uuid = unique_id).first()
         login_user(newuser, remember=True)
 
-        '''
         token = newuser.generate_confirmation_token()
-        send_email(user=newuser, token=token)
-        '''
+        confirm_email(user=newuser, token=token)
+    
         next = url_for('main.home')
             
         return redirect(next)
@@ -85,7 +84,7 @@ def password_reset_request():
         user = User.query.filter_by(email=form.email.data).first()
         if user:
             token = user.generate_reset_token()
-            send_reset_email(user=user, token=token)
+            reset_password_email(user=user, token=token)
         flash('Instruction with password reset has been sent to you', 'danger')
         return redirect(url_for('auth.login'))
 
@@ -107,14 +106,11 @@ def reset_password(token):
 @login_required
 def confirm(token):
 
-    if current_user.confirmed:
-        return redirect(url_for('main.home'))
-
     if current_user.confirm(token):
         db.session.commit()
     else:
         flash('Confirmation email invalid or expired', 'info')
-    return redirect(url_for('auth.confirm_account'))
+    return redirect(url_for('main.home'))
 
 
 @auth.route('/resend_confirmation')

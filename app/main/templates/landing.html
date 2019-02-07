@@ -14,37 +14,45 @@
 
 {% block main %}
     <div class="container main">
-        <div class="row justify-content-center mt-3">
-            <div class="col-md-8 text-center m-auto">
-                <p class="display-4 font-weight-bold">Questions help you learn better.</p>
-                <div class="container">
-                    <div class="row justify-content-center">
-                        <div class="col-md-7">
-                            <p class="text-muted lead">Kelaa helps you keep all questions you come up with while studying in one place for later review.</p>
+        <div class="row p-5">
+            <div class="col-12 d-flex m-auto">
+                <div class="row justify-content-center">
+                    <div class="col-md-5">
+                        <div class="text-center">
+                            <p class="display-4 font-weight-bold">Questions help you learn better.</p>
+                            <p class="text-muted h5 ">Research shows coming up with questions while studying helps you remember more. Kelaa is where you keep all those questions in one place for later review.</p>
+                            <div class="p-3">
+                                <a href="{{ url_for('auth.login') }}" class="btn btn-primary">Get started</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="text-center pb-2">
+                            <img class="landing-screenshot" src="{{ url_for('main.static', filename='assets/26661.jpg')}}">
                         </div>
                     </div>
                 </div>
-                <a href="{{ url_for('auth.login') }}" class="btn btn-primary">Get started</a>
             </div>
         </div>
-        <div class="row justify-content-center">
-            <div class="col-md-6 text-center">
-                <div class="pb-2">
-                    <img class="landing-screenshot" src="{{ url_for('main.static', filename='assets/26661.jpg')}}">
-                </div>
-            </div>
-        </div>
-        <div class="row mt-3 mb-3 justify-content-center">
+        <hr>
+        <div class="row mt-5 mb-5 justify-content-center">
             <div class="col-md-7">
-                <div class="card">
-                    <div class="card-body">
-                        <p class="card-text h2">The idea behind Kelaa</p>
-                        <hr>
-                        <p>Active learning involves engaging with the material your study.</p>
-                        <p>A proven way to learn actively is to come up with questions while reading through study material. <br>Questions can one answer or long answer questions.</p>
-                        <p>Kelaa allows you create study questions as you along.</p>
-                        <p>At the same time, that type of engaged reading that helps you identify key points and reframing how a question could be asked of them really helps with information retention and understanding.</p>
-                    </div>
+                <div class="row">
+                  <div class="col-md-4 text-center">
+                    <h3>💎</h3>
+                    <p class="issa-header-bold text-primary h4">Active learning</p>
+                    <p class="issa-header text-muted">Questions enables the learning experience to be more engaging and active.</p>
+                  </div>
+                  <div class="col-md-4 text-center">
+                    <h3>🥇</h3>
+                    <p class="issa-header-bold text-primary h4">Review</p>
+                    <p class="issa-header text-muted">Keep all your questions in a single location for later review.</p>
+                  </div>
+                  <div class="col-md-4 text-center">
+                    <h3>👁</h3>
+                    <p class="issa-header-bold text-primary h4">Share with others</p>
+                    <p class="issa-header text-muted">Share your questions with other students and your learning peers.</p>
+                  </div>
                 </div>
             </div>
         </div>
