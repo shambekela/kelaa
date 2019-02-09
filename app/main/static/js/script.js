@@ -36,22 +36,11 @@
 		var delet = '.modal-delete-option-content';
 
 		// if delete option is selected.
-		if(option.option == 'delete'){
-			$('#channel-option-modal-label span.content').text('Delete Channel') 
-			$(delet + ' .delete-title').text(option.title) // set channel name
-			$('.delete-channel-key').val(option.key) // set delete form key
-			$(delet).removeClass('d-none'); // show update section in modal
-			$(edit).addClass('d-none'); // hide update section in modal
-		}
-
-		// if update option is selected.
-		else if (option.option == 'edit'){
+		if (option.option == 'edit'){
 			$('#channel-option-modal-label span.content').text('Edit Channel')
 			$('.update-channel-key').val(option.key) // set update form key
 			$('.update-channel-title').val(option.title) // set update form title
 			$('.update-channel-description').val(option.description) // set update form description
-			$(edit).removeClass('d-none'); // show update section in modal
-			$(delet).addClass('d-none'); // hide delete section in modal
 		}
 	})
 
@@ -72,25 +61,45 @@
 	});
 
 	// delete option handler
-	$('#delete-channel-form').on('submit', function(event) {
+	$('.delete-channel').on('click', function(event) {
 		event.preventDefault();
 
-		// delete the selected channel
-		$.ajax({
-			url: '/delete_channel',
-			type: 'POST',
-			data: $(this).serialize(),
-		})
-		.done(function() {
-			window.location.reload()
-		})
-		.fail(function() {
-			alert("error");
-		})
+		key = $(this).data('key');
+		title = $(this).data('title')
+
+		$.confirm({
+		    title: 'Delete channel - ' + title,
+		    content: 'Are your sure ? all data related to this channel will be deleted forever.',
+		    type: 'red',
+		    buttons: {
+		        delete: function () {
+		            // delete the selected channel
+					$.ajax({
+						url: '/delete_channel',
+						type: 'POST',
+						data: {key: key},
+					})
+					.done(function() {
+						$.alert({
+							title: 'Done.',
+							content: 'Deleted',
+							buttons: {
+								ok: function (){
+									window.location.reload()
+								}
+							}
+						})
+					})
+		        },
+		        cancel: function () {
+		        }
+		    },
+		    draggable: false
+		});
+
 	});
 
-	// question options
-
+	// edit question
 	$('.question-card-option a.question-edit').on('click', function(event) {
 		event.preventDefault();
 		/* Act on the event */
@@ -116,6 +125,7 @@
 		})
 	});
 
+	// edit question form handler
 	$('#question-edit-form').on('submit', function(event) {
 		event.preventDefault();
 		$.ajax({
@@ -129,7 +139,65 @@
 		.fail(function() {
 			console.log("error");
 		});
-		
+	});
+
+	// question options 
+	$('.favourite-question').on('click',  function(event) {
+		event.preventDefault();
+		parent = $(this).parent()
+		child = $(this).children('span')
+		$.ajax({
+			url: '/favourite_question',
+			type: 'POST',
+			data: {key: $(this).data('key')}
+		})
+		.done(function(resp) {
+			if (resp) {
+				child.empty().html('<i class="fas fa-star"></i>')
+				parent.removeClass('d-none question-card-option');
+			} else {
+				child.empty().html('<i class="far fa-star"></i>')
+				parent.addClass('question-card-option');
+			}
+		});
+
+	});
+
+	// channel options 
+
+	// delete questions 
+	$('.delete-question').on('click', function(event) {
+		event.preventDefault();
+		key = $(this).data('key');
+		$.confirm({
+		    title: 'Delete question',
+		    content: 'Are you sure ?',
+		    buttons: {
+		        confirm: function () {
+		            $.ajax({
+		            	url: '/delete_question',
+		            	type: 'POST',
+		            	data: {key: key},
+		            })
+		            .done(function() {
+		            	window.location.reload();
+		            })
+		            
+		        },
+		        cancel: function () {
+		            
+		        }
+		    }
+		});
+	});
+
+	// view answer in review modal
+	$('.view-answer').on('click', function(event) {
+		event.preventDefault();
+
+		answer = $(this).data('answer');
+
+		$.alert( answer );
 	});
 
 }());

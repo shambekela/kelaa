@@ -60,7 +60,8 @@
 										  </a>
 										  <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
 										    <a href class="dropdown-item channel-option" data-toggle="modal" data-target="#channel-option-modal" data-key='{{ channel.key}}' data-title='{{ channel.title }}' data-desc='{{ channel.description}}' data-option='edit'>Edit</a>
-										    <a href class="dropdown-item channel-option" data-key='{{ channel.key}}' data-title='{{ channel.title }}' data-desc='{{ channel.description}}' data-toggle="modal" data-target="#channel-option-modal" data-option='delete'>Delete</a>
+
+										    <a href class="dropdown-item delete-channel" data-key='{{ channel.key}}' data-title='{{ channel.title }}'>Delete</a>
 										  </div>
 										</div>
 									</div>
@@ -121,22 +122,7 @@
 	      <div class="modal-body">
 	      	<div class="container">
 	      		
-	      		<div class="modal-delete-option-content" class="d-none">
-	      			<h5>Delete <span class="delete-title"></span>, are you sure you ?</h5>
-	      			<div class="alert alert-success" role="alert">
-					  <p class="m-0"><span class="font-weight-bold">Please note!</span> Deleting this channel will also delete it's data forever.</p>
-					</div>
-					<hr>
-					<div class="float-right form-inline">
-						<button type="button" class="btn btn-outline-dark mr-1" data-dismiss="modal">cancel</button>
-						<form id="delete-channel-form">
-							<input type="hidden" name="key" class="delete-channel-key">
-							<button type="submit" class="btn btn-danger option-delete-button">delete</button>
-						</form>
-					</div>
-	      		</div>
-
-	      		<div class="modal-edit-option-content" class="d-none">
+	      		<div class="modal-edit-option-content">
 	      			<form method="POST" id="edit-channel">
 	      				<input type="hidden" name="key" class="update-channel-key">
 		      			<div class="form-group">

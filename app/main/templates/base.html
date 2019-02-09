@@ -10,7 +10,7 @@
 	 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
 	 	<link rel="stylesheet" type="text/css" href="{{ url_for('main.static', filename='css/style.css')}}">
 	 	<link href="https://fonts.googleapis.com/css?family=Assistant" rel="stylesheet">
-
+	 	<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
 	{% endblock head %}
 </head>
 <body>
@@ -39,14 +39,16 @@
 						  	   </div>
 
 						      <div class="col-md-6 col-sm-6 order-sm-2 m-auto">
+						      	<form action="{{ url_for('main.search')}}" method='GET'>
 						      	<div class="input-group" id="adv-search">
-					                <input type="text" class="form-control" placeholder="Search for questions..." />
+					                <input type="text" name="q" class="form-control" placeholder="Search for questions..." />
 					                <div class="input-group-btn">
 					                    <div class="btn-group" role="group">
-					                    <button type="button" class="btn btn-primary"><i class="fas fa-search"></i></button>
+					                    <button type="submit" class="btn btn-primary"><i class="fas fa-search"></i></button>
 					                    </div>
 					                </div>
 					            </div>
+					        	</form>
 						      </div>
 						</div>
 					</div>			  	  
@@ -83,6 +85,7 @@
 			<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
 			<script type="text/javascript" src="{{ url_for('main.static', filename='js/script.js') }}"></script>
 			{{ moment.include_moment() }}
+			<script src="//cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
 		{% endblock scripts %}
 	</div>
 </body>

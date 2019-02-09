@@ -121,11 +121,14 @@ def profile(username, tab):
 
 	return render_template('profile.html', form=form, user=user, securityform=securityform, deleteform=deleteform, active_page=tab)
 
-@main.route('/search/<term>', methods=['POST', 'GET'])
-def search(term):
-	res = Question.query.whoosh_search(term)
+@main.route('/search', methods=['POST', 'GET'])
+def search():
 
-	return render_template('search.html', results=res)
+	query = request.args.get('q')
+	res = Question.query.whoosh_search(query).filter_by(created_by = current_user.uuid).all()
+
+	return render_template('search.html', results=res, query=query)
+
 
 ''' routes envoked by javascript '''
 
@@ -156,8 +159,6 @@ def delete_channel():
 	channel = db.session.query(Channel).filter(Channel.key==key).first()
 	db.session.delete(channel)
 	db.session.commit()
-
-	flash('Delete successfully', 'danger')
 
 	return 'a'
 
@@ -205,3 +206,17 @@ def delete_question():
 	flash('Deleted successfully', 'info')
 
 	return 'a'
+
+@main.route('/favourite_question', methods=['POST', 'GET'])
+@login_required
+def favourite_question():
+	key = request.form.get('key')
+
+	question = db.session.query(Question).filter(Question.key == key).first()
+	fav = not question.favourite
+
+	if question is not None:
+		question.favourite = fav
+		db.session.commit()
+
+	return jsonify(fav)

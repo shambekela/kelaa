@@ -1,23 +1,42 @@
 {% extends "base.html" %}
 {% import "bootstrap/wtf.html" as wtf %}
 
-{% block title %} {{ super() }} {{ channel.title}} {% endblock title %}
+{% block title %} {{ super() }} Search for {% endblock title %}
 
 {% block head %}
     {{ super() }}
 {% endblock head %}
 
 {% block header %}
-    
+    {{ super() }}
 {% endblock header %}
 
 {% block main %}
     <div class="container">
-    	<div class="row justify-content-center">
-    		<div class="col-md-6">
-    			{% for results in results  %}
-    			   <div class="card-text"> {{ results }}</div>
-    			{% endfor %}
+        <div class="row justify-content-center">
+            <div class="col-md-8 main-option-container">
+                {% include 'includes/message_flash.html' %}
+                <h1 class="d-inline">Search results... {{ query }}</h1>
+            </div>
+        </div>
+    	<div class="row justify-content-center mt-4">
+    		<div class="col-md-7">
+    			{% if results %}
+                    {% for question in results  %}
+                    <div class="card mt-2">
+                        <div class="card-body pt-2 pb-2">
+                            <a class="small" href="{{ url_for('main.channel', channel_key=question.channel_key) }}">{{ question.quest.title}}</a>
+                            <div class="card-text"> {{ question.text }}</div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="card bg-light">
+                        <div class="card-body p-4">
+                            <h4>No results found.</h4>
+                        </div>
+                    </div>
+                {% endif %}
     		</div>
     	</div>
     </div>

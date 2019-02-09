@@ -22,7 +22,6 @@ def create_app(config_name):
 	bootstrap.init_app(app)
 	moment.init_app(app)
 	login_manager.init_app(app)
-	flask_whooshalchemyplus(app)
 
 	if app.config['SSL_REDIRECT']:
 		from flask_sslify import SSLify

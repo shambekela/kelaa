@@ -5,7 +5,6 @@
 
 {% block head %} 
 	{{ super() }}
-	<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
 {% endblock head %}
 
 {% block header %}
@@ -45,20 +44,43 @@
 	    					<div class="card question-card">
 			    				<div class="card-body">
 			    					<div class="row d-flex">
-			    						<div class="col ml-2 mr-2" >
+			    						<div class="col-md-8 ml-2 mr-2" >
 			    							<div class="card-text">
 			    								<a class="m-0" data-toggle="collapse" href="#question-{{ question.id}}" role="button">{{ question.text }}</a>
 			    							</div>
 			    						</div>
-			    						<div class="col d-none text-right question-card-option">
+			    						<div class="col-md-3 text-right">
 			    							<!-- edit question -->
-			    							<a class="mr-2 question-edit" data-toggle="modal" data-target="#question-edit-modal" data-toggle="tooltip" data-placement="top" title="Edit" data-key='{{ question.key }}' data-option='edit'>
-			    								<i class="fas fa-pencil-alt"></i>
-			    							</a>
+			    							<span class="d-none question-card-option" data-toggle="tooltip" data-placement="top" title="Edit">
+			    								<a class="mr-2 question-edit" data-toggle="modal" data-target="#question-edit-modal" data-key='{{ question.key }}' data-option='edit'>
+				    								<i class="fas fa-pencil-alt"></i>
+				    							</a>
+			    							</span>
 			    							<!-- delete question -->
-			    							<a data-toggle="tooltip" data-placement="top" title="Delete" data-key='{{ question.key }}' class="delete-question">
-			    								<i class="far fa-trash-alt"></i>
-			    							</a>
+			    							<span class="d-none question-card-option" data-toggle="tooltip" data-placement="top" title="Delete">
+				    							<a data-key='{{ question.key }}' class="delete-question mr-2">
+				    								<i class="far fa-trash-alt"></i>
+				    							</a>
+			    							</span>
+
+			    							<!-- favourite question -->
+			    							{% if question.favourite %}
+		    								    <span data-toggle="tooltip" data-placement="top" title="favourite">
+					    							<a data-key='{{ question.key }}' class="favourite-question mr-2">
+					    								<span class="favourite-icon">
+					    								    <i class="fas fa-star"></i>
+					    								</span>
+					    							</a>
+				    							</span>
+		    								{% else %}
+				    							<span class="d-none question-card-option" data-toggle="tooltip" data-placement="top" title="favourite">
+					    							<a data-key='{{ question.key }}' class="favourite-question mr-2">
+					    								<span class="favourite-icon">
+					    								    <i class="far fa-star"></i>
+					    								</span>
+					    							</a>
+				    							</span>
+		    								{% endif %}
 			    						</div>
 			    					</div>
 			    				</div>
@@ -66,13 +88,29 @@
 			    					<div class="card-footer">
 										<div>
 											{% if (question.answer_page) %}
-											    <div>
-													<p class="text-muted">{{ question.answer_page }}</p>
+											    <div class="small">
+											    	<ul class="list-unstyled">
+														<li>
+															<dt>Answer page</dt>
+															<ul>
+																<li><p class="text-muted">{{ question.answer_page }}</p></li>
+															</ul>
+														</li>
+													</ul>
 												</div>
 											{% endif %}
-											<div>
-												<p class="text-muted">{{ question.answer_text }}</p>
-											</div>
+											{% if (question.answer_text) %}
+											    <div class="small">
+													<ul class="list-unstyled">
+														<li>
+															<dt>Answer description</dt>
+															<ul>
+																<li><p class="text-muted">{{ question.answer_text }}</p></li>
+															</ul>
+														</li>
+													</ul>
+												</div>
+											{% endif %}
 										</div>
 									</div>
 			    				</div>
@@ -120,6 +158,9 @@
 						    	<div class="card-body p-5">
 						    		<p class="h5">{{ question.text }}</p>
 						    	</div>
+						    	<div class="card-footer pb-1 pt-1">
+						    		<a class="btn btn-sm btn-link text-light view-answer" data-answer='{{ question.answer_text }}'><i class="far fa-eye"></i></a>
+						    	</div>
 						    </div>
 				    	</div>
 			    	{% endfor %}
@@ -136,8 +177,8 @@
 			</div>
 	      </div>
 	      <div class="modal-body text-right">
-	        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-	        <button type="button" class="btn btn-secondary">Done</button>
+	        <button type="button" class="btn btn-light" data-dismiss="modal">Close</button>
+	        <button type="button" class="btn btn-primary" data-dismiss="modal">Done</button>
 	      </div>
 	    </div>
 	  </div>
@@ -187,33 +228,7 @@
 
 {% block scripts %}
     {{ super() }}
-    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
     <script type="text/javascript">
     	$('[data-toggle="tooltip"]').tooltip();
-
-    	$('.delete-question').on('click', function(event) {
-    		event.preventDefault();
-    		key = $(this).data('key');
-    		$.confirm({
-			    title: 'Delete question',
-			    content: 'Are you sure ?',
-			    buttons: {
-			        confirm: function () {
-			            $.ajax({
-			            	url: '/delete_question',
-			            	type: 'POST',
-			            	data: {key: key},
-			            })
-			            .done(function() {
-			            	window.location.reload();
-			            })
-			            
-			        },
-			        cancel: function () {
-			            
-			        }
-			    }
-			});
-    	});
     </script>
 {% endblock scripts %}
