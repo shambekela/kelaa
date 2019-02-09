@@ -1,11 +1,26 @@
 (function(){
+	/**
+		Edit and delete option for home
+	**/
 	$('.main-card').on('mouseenter', function(event) {
 		$(this).find('.ellipsis').removeClass('d-none');
 	});
 
 	$('.main-card').on('mouseleave', function(event) {
 		$(this).find('.ellipsis').addClass('d-none');
+	});	
+
+	/**
+		Edit and delete option for channel
+	**/
+	$('.question-card').on('mouseenter', function(event) {
+		$(this).find('.question-card-option').removeClass('d-none');
 	});
+
+	$('.question-card').on('mouseleave', function(event) {
+		$(this).find('.question-card-option').addClass('d-none');
+	});
+
 
 	$('.channel-option').on('click', function(){
 
@@ -16,7 +31,7 @@
 			title: $(this).data('title'),
 			description: $(this).data('desc')
 		}
-		console.log(option);
+
 		var edit = '.modal-edit-option-content';
 		var delet = '.modal-delete-option-content';
 
@@ -74,5 +89,47 @@
 		})
 	});
 
+	// question options
 
-}())
+	$('.question-card-option a.question-edit').on('click', function(event) {
+		event.preventDefault();
+		/* Act on the event */
+
+		var question = {
+			key: $(this).data('key'),
+			option: $(this).data('option')
+		}
+
+		$.ajax({
+			url: '/question_option',
+			type: 'POST',
+			data: question
+		})
+		.done(function(resp) {
+			$('.question-key-area').val(resp[0])
+			$('.question-title-area').val(resp[1])
+			$('.question-page-area').val(resp[2])
+			$('.question-description-area').val(resp[3])
+		})
+		.fail(function() {
+			window.location.reload()
+		})
+	});
+
+	$('#question-edit-form').on('submit', function(event) {
+		event.preventDefault();
+		$.ajax({
+			url: '/update_question',
+			type: 'POST',
+			data: $(this).serialize(),
+		})
+		.done(function() {
+			window.location.reload()
+		})
+		.fail(function() {
+			console.log("error");
+		});
+		
+	});
+
+}());

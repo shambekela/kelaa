@@ -14,6 +14,11 @@ a.app-title{
 	text-decoration: none
 }
 
+header a:hover {
+	text-decoration: none;
+	color: #999!important;
+}
+
 /** landing.html **/
 
 img.landing-screenshot {
@@ -97,4 +102,24 @@ div.question-card .card-body{}
 /** add question.html **/
 textarea {
   resize: none;
+}
+
+div.home-modal {
+	background-color: #e8e8e8;
+}
+
+div.modal-content {
+	border-radius: 0;
+}
+
+div.question-card {
+	position: relative;
+}
+
+.question-card a span.click_question {
+  position: absolute;
+  width:100%;
+  height:100%;
+  top:0px;
+  left:0px;
 }

@@ -89,7 +89,7 @@
     <!-- add new channel modal -->
 	<div class="modal fade" id="new-channel-modal" tabindex="-1" role="dialog">
 	  <div class="modal-dialog modal-dialog-centered" role="document">
-	    <div class="modal-content">
+	    <div class="modal-content home-modal">
 	      <div class="modal-header">
 	        <h5 class="modal-title" id="new-channel-modal-label">New channel </h5>
 	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -117,7 +117,7 @@
 	<!-- edit channel -->
 	<div class="modal" id="channel-option-modal" tabindex="-1" role="dialog">
 	  <div class="modal-dialog modal-dialog-centered" role="document">
-	    <div class="modal-content pt-3">
+	    <div class="modal-content home-modal pt-3">
 	      <div class="modal-body">
 	      	<div class="container">
 	      		
@@ -128,16 +128,16 @@
 					</div>
 					<hr>
 					<div class="float-right form-inline">
-						<button type="button" class="btn btn-sm btn-default" data-dismiss="modal">cancel</button>
+						<button type="button" class="btn btn-outline-dark mr-1" data-dismiss="modal">cancel</button>
 						<form id="delete-channel-form">
 							<input type="hidden" name="key" class="delete-channel-key">
-							<button type="submit" class="btn btn-sm btn-danger option-delete-button">delete</button>
+							<button type="submit" class="btn btn-danger option-delete-button">delete</button>
 						</form>
 					</div>
 	      		</div>
 
 	      		<div class="modal-edit-option-content" class="d-none">
-	      			<form method="POST" action="{{ url_for('main.home') }}" id="edit-channel">
+	      			<form method="POST" id="edit-channel">
 	      				<input type="hidden" name="key" class="update-channel-key">
 		      			<div class="form-group">
 		      				<label class="font-weight-bold">Title</label>
@@ -150,8 +150,8 @@
 		      		</form>
 		      		<hr>
 					<div class="float-right">
-						<button type="button" class="btn btn-sm btn-default" data-dismiss="modal">cancel</button>
-						<button type="submit" class="btn btn-sm btn-primary option-update-button" form="edit-channel">update</button>
+						<button type="button" class="btn btn-outline-dark" data-dismiss="modal">cancel</button>
+						<button type="submit" class="btn btn-primary option-update-button" form="edit-channel">update</button>
 					</div>
 	      		</div>
 

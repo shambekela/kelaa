@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %} {{ super() }} {{ channel.title}} {% endblock title %}
+
+{% block head %}
+    {{ super() }}
+{% endblock head %}
+
+{% block header %}
+    
+{% endblock header %}
+
+{% block main %}
+    <div class="container">
+    	<div class="row justify-content-center">
+    		<div class="col-md-6">
+    			{% for results in results  %}
+    			   <div class="card-text"> {{ results }}</div>
+    			{% endfor %}
+    		</div>
+    	</div>
+    </div>
+{% endblock main %}
+
+{% block footer %}
+    {{ super() }}
+{% endblock footer %}
+
+{% block scripts %}
+    {{ super() }}
+{% endblock scripts %}

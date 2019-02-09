@@ -97,6 +97,8 @@ class Channel(db.Model):
 		return date
 
 class Question(db.Model):
+	__searchable__ = ['text', 'answer_text']
+
 	id = db.Column(db.Integer, primary_key=True)
 	key = db.Column(db.String(128), unique=True)
 	channel_key = db.Column(db.Integer, db.ForeignKey('channel.key', ondelete="CASCADE"))

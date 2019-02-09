@@ -1,4 +1,5 @@
 import os
+from whoosh.analysis import StemmingAnalyzer
 
 os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'
 
@@ -18,6 +19,8 @@ class Config:
 	SPARKPOST_KEY = os.environ.get('SPARKPOST_KEY') or 'ab6539162c56ffbdd3d47068c23e28dfce0f5420'
 	SPARKPOST_NOTIFICATION_EMAIL = os.environ.get('SPARKPOST_NOTIFICATION_EMAIL')
 	SPARKPOST_CONTACT_EMAIL = os.environ.get('SPARKPOST_CONTACT_EMAIL') or 'passwordreset@kelaa.co'
+	WHOOSH_ANALYZER = StemmingAnalyzer()
+	WHOOSH_BASE = 'whoosh'
 
 	@staticmethod
 	def init_app(app):

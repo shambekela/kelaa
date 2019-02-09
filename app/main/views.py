@@ -1,6 +1,7 @@
 from app import db, moment
 from app.main import main
 from app.models import User, Channel, Question
+from app.decorators import user_loggedin
 from app.main.forms import ProfileForm, AddQuestionForm, AddChannelForm, PasswordChangeForm, DeleteAccountForm
 
 from flask import render_template, current_app, request, redirect, url_for, jsonify, session, flash
@@ -9,6 +10,7 @@ from sparkpost import SparkPost
 
 import uuid
 import bleach
+import json
 
 # before request handler: redirect if not logged in .    
 @main.before_request
@@ -17,6 +19,7 @@ def before_request():
 
 # landing page 
 @main.route('/')
+@user_loggedin(current_user)
 def landing():
 	return render_template('landing.html')
 
@@ -75,11 +78,16 @@ def add_question(channel_key):
 	return render_template('add_question.html', form=form, channel=channel)
 
 @main.route('/<username>/<tab>', methods=['POST', 'GET'])
+@login_required
 def profile(username, tab):
+
 	form = ProfileForm()
 	securityform = PasswordChangeForm(prefix='a')
 	deleteform = DeleteAccountForm(prefix='b')
 	user = db.session.query(User).filter(User.username==username).first()
+
+	if user is None:
+		return redirect(url_for('main.home'))
 
 	if securityform.validate_on_submit():
 
@@ -113,9 +121,16 @@ def profile(username, tab):
 
 	return render_template('profile.html', form=form, user=user, securityform=securityform, deleteform=deleteform, active_page=tab)
 
+@main.route('/search/<term>', methods=['POST', 'GET'])
+def search(term):
+	res = Question.query.whoosh_search(term)
+
+	return render_template('search.html', results=res)
+
 ''' routes envoked by javascript '''
 
 @main.route('/update_channel', methods=['POST', 'GET'])
+@login_required
 def update_channel():
 	# initialize variables.
 	key = request.form.get('key')
@@ -134,6 +149,7 @@ def update_channel():
 	return 'a'
 
 @main.route('/delete_channel', methods=['POST', 'GET'])
+@login_required
 def delete_channel():
 
 	key = request.form.get('key')
@@ -142,5 +158,50 @@ def delete_channel():
 	db.session.commit()
 
 	flash('Delete successfully', 'danger')
+
+	return 'a'
+
+@main.route('/question_option', methods=['POST', 'GET'])
+@login_required
+def question_option():
+
+	key = request.form.get('key')
+
+	quest = db.session.query(Question.key, Question.text, Question.answer_page, Question.answer_text).filter(Question.key == key).first()
+
+	return jsonify(quest)
+
+@main.route('/update_question', methods=['POST', 'GET'])
+@login_required
+def update_question():
+
+	key = request.form.get('key')
+	quest = request.form.get('question')
+	page = request.form.get('page')
+	description = request.form.get('description')
+
+	question = db.session.query(Question).filter(Question.key == key).first()
+	
+	if question is not None:
+		question.text = quest
+		question.answer_page = page
+		question.answer_text = description
+		db.session.commit()
+
+	flash('Question updated successfully', 'info')
+
+	return 'b'
+
+@main.route('/delete_question', methods=['POST', 'GET'])
+@login_required
+def delete_question():
+	key = request.form.get('key')
+	question = db.session.query(Question).filter(Question.key == key).first()
+
+	if question is not None:
+		db.session.delete(question)
+		db.session.commit()
+
+	flash('Deleted successfully', 'info')
 
 	return 'a'

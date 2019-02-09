@@ -2,22 +2,15 @@ from flask import render_template, flash, redirect, url_for, request, session
 from app.auth import auth
 from app.auth.forms import LoginForm, RegisterForm, PasswordResetRequestForm, PasswordResetForm
 from app.auth.utils import confirm_email, reset_password_email
+from app.decorators import user_loggedin
 from app import db
 from app.models import User, UserDetail
 import uuid
 from flask_login import login_user, logout_user, login_required, current_user
 
-@auth.before_request
-def before_request():
-    pass
-
 @auth.route('/login', methods=['GET', 'POST'])
+@user_loggedin(current_user)
 def login():
-    
-    ''' check if user is loggedin already '''
-    if current_user.is_authenticated:
-        return redirect(url_for('main.home'))
-
     form = LoginForm()
 
     if form.validate_on_submit():
@@ -45,12 +38,9 @@ def logout():
 
 
 @auth.route('/register', methods=['GET', 'POST'])
+@user_loggedin(current_user)
 def register():
     
-    ''' check if user is logged in '''
-    if current_user.is_authenticated:
-        return redirect(url_for('main.home'))
-
     form = RegisterForm()
     if form.validate_on_submit():
         unique_id = uuid.uuid4().int & (1<<29)-1
@@ -85,7 +75,7 @@ def password_reset_request():
         if user:
             token = user.generate_reset_token()
             reset_password_email(user=user, token=token)
-        flash('Instruction with password reset has been sent to you', 'danger')
+        flash('Password reset instruction have been emailed to you', 'danger')
         return redirect(url_for('auth.login'))
 
     return render_template('account/password_reset_request.html', form=form)
@@ -95,7 +85,7 @@ def reset_password(token):
     form = PasswordResetForm()
     if form.validate_on_submit():
         if User.reset_password(token, form.password.data):
-            flash('Password changed. Use it to login.', 'success')
+            flash('Password reset! use it to login.', 'success')
             return redirect(url_for('auth.login'))
         else:
             return redirect(url_for('main.home'))

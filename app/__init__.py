@@ -4,6 +4,7 @@ from config import config
 from flask_bootstrap import Bootstrap
 from flask_moment import Moment
 from flask_login import LoginManager, current_user
+import flask_whooshalchemyplus
 
 db = SQLAlchemy(session_options={"expire_on_commit": False})
 bootstrap = Bootstrap()
@@ -21,6 +22,7 @@ def create_app(config_name):
 	bootstrap.init_app(app)
 	moment.init_app(app)
 	login_manager.init_app(app)
+	flask_whooshalchemyplus(app)
 
 	if app.config['SSL_REDIRECT']:
 		from flask_sslify import SSLify

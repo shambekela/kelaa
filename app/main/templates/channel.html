@@ -4,7 +4,8 @@
 {% block title %} {{ super() }} {{ channel.title}} {% endblock title %}
 
 {% block head %} 
-	{{ super() }} 
+	{{ super() }}
+	<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
 {% endblock head %}
 
 {% block header %}
@@ -17,7 +18,13 @@
     		<div class="col-md-10 m-auto text-right p-3 channel-option-container">
     			<a href="{{url_for('main.home')}}" class="float-left btn btn-outline-secondary btn-sm"><i class="fas fa-long-arrow-alt-left"></i> Back</a>
     			<a class="btn btn-primary btn-sm main-add-button" href="{{ url_for('main.add_question', channel_key=channel.key)}}"><i class="fas fa-plus"></i> Add new question</a>
-    			<button class="btn btn-primary btn-sm main-review-button" data-toggle="modal" data-target="#review-modal"><i class="fas fa-play"></i> Start a review</button>
+    			{% if questions %}    				
+    				<button class="btn btn-primary btn-sm main-review-button" data-toggle="modal" data-target="#review-modal"><i class="fas fa-play"></i> Start a review</button>
+    			{% else %}
+    				<span class="d-inline-block" tabindex="0" data-placement="bottom" data-toggle="tooltip" title="Disabled. Please add questions.">
+    					<button class="btn btn-primary btn-sm main-review-button"style="pointer-events: none;" type="button" disabled><i class="fas fa-play"></i> Start a review</button>
+    				</span>
+    			{% endif %}
     		</div>
     	</div>
     	<div class="row">
@@ -27,14 +34,31 @@
     	</div>
     	<div class="row justify-content-center question-card-container">
 			<div class="col-md-8">
+				<div class="row justify-content-center">
+		    		<div class="col-md-10">
+		    			{% include 'includes/message_flash.html' %}
+		    		</div>
+		    	</div>
 				<div class="">
     				{% if questions %}
     				    {% for question in questions %}
 	    					<div class="card question-card">
 			    				<div class="card-body">
 			    					<div class="row d-flex">
-			    						<div class="card-text ml-2 mr-2" >
-			    							<a class="m-0" data-toggle="collapse" href="#question-{{ question.id}}" role="button">{{ question.text }}</a>
+			    						<div class="col ml-2 mr-2" >
+			    							<div class="card-text">
+			    								<a class="m-0" data-toggle="collapse" href="#question-{{ question.id}}" role="button">{{ question.text }}</a>
+			    							</div>
+			    						</div>
+			    						<div class="col d-none text-right question-card-option">
+			    							<!-- edit question -->
+			    							<a class="mr-2 question-edit" data-toggle="modal" data-target="#question-edit-modal" data-toggle="tooltip" data-placement="top" title="Edit" data-key='{{ question.key }}' data-option='edit'>
+			    								<i class="fas fa-pencil-alt"></i>
+			    							</a>
+			    							<!-- delete question -->
+			    							<a data-toggle="tooltip" data-placement="top" title="Delete" data-key='{{ question.key }}' class="delete-question">
+			    								<i class="far fa-trash-alt"></i>
+			    							</a>
 			    						</div>
 			    					</div>
 			    				</div>
@@ -79,7 +103,7 @@
 	      <div class="modal-body">
 	        <h5 class="modal-title" id="exampleModalLabel"></h5>
 	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-	          <span aria-hidden="true">&times;</span>
+	          <i class="fas fa-times"></i>
 	        </button>
 	      </div>
 	      <div class="modal-body text-light">
@@ -118,6 +142,43 @@
 	    </div>
 	  </div>
 	</div>
+
+	<!-- edit question -->
+	<div class="modal" id="question-edit-modal" tabindex="-1" role="dialog">
+	  <div class="modal-dialog modal-dialog-centered" role="document">
+	    <div class="modal-content home-modal pt-3">
+	      <div class="modal-body">
+	      	<div class="container">
+
+	      		<div class="question-modal-edit-content" class="d-none">
+	      			<form method="POST" action="" id="question-edit-form">
+	      				<input type="hidden" name="key" class="question-key-area">
+		      			<div class="form-group">
+		      				<label class="font-weight-bold">Question</label>
+		      				<input type="text" name="question" class="form-control question-title-area" required>
+		      			</div>
+		      			<div class="form-group">
+		      				<label class="font-weight-bold">Answer page</label>
+		      				<input type="text" name="page" class="form-control question-page-area" />
+		      			</div>
+		      			<div class="form-group">
+		      				<label class="font-weight-bold">Answer description</label>
+		      				<textarea name="description" class="form-control question-description-area" rows="5"></textarea>
+		      			</div>
+		      		</form>
+		      		<hr>
+					<div class="float-right">
+						<button type="button" class="btn btn-outline-dark" data-dismiss="modal">cancel</button>
+						<button type="submit" class="btn btn-primary question-update-button" form="question-edit-form">update</button>
+					</div>
+	      		</div>
+
+	      	</div>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+
 {% endblock main %}
 
 {% block footer %}
@@ -126,10 +187,33 @@
 
 {% block scripts %}
     {{ super() }}
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
     <script type="text/javascript">
-    	$('[data-toggle="popover"]').popover();
-    	$('.popover-dismiss').popover({
-		  trigger: 'focus'
-		});
+    	$('[data-toggle="tooltip"]').tooltip();
+
+    	$('.delete-question').on('click', function(event) {
+    		event.preventDefault();
+    		key = $(this).data('key');
+    		$.confirm({
+			    title: 'Delete question',
+			    content: 'Are you sure ?',
+			    buttons: {
+			        confirm: function () {
+			            $.ajax({
+			            	url: '/delete_question',
+			            	type: 'POST',
+			            	data: {key: key},
+			            })
+			            .done(function() {
+			            	window.location.reload();
+			            })
+			            
+			        },
+			        cancel: function () {
+			            
+			        }
+			    }
+			});
+    	});
     </script>
 {% endblock scripts %}
