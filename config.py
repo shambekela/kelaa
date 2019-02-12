@@ -4,8 +4,8 @@ from whoosh.analysis import StemmingAnalyzer
 os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'
 
 class Auth:
-	CLIENT_ID = os.environ.get('GOOGLE_CLIENT_ID') or '922878223874-6cu7o4qkk5lg1157ccmi7l4nd155bj8c.apps.googleusercontent.com'
-	CLIENT_SECRET = os.environ.get('GOOGLE_CLIENT_SECRET') or 'bLAaMClzFLoBlUC1NxkYBDsB'
+	CLIENT_ID = os.environ.get('GOOGLE_CLIENT_ID')
+	CLIENT_SECRET = os.environ.get('GOOGLE_CLIENT_SECRET')
 	REDIRECT_URI = 'http://localhost:5000/gCallback'
 	AUTH_URI = 'https://accounts.google.com/o/oauth2/auth'
 	TOKEN_URI = 'https://accounts.google.com/o/oauth2/token'
@@ -15,10 +15,10 @@ class Auth:
 class Config:
 	SECRET_KEY = os.environ.get('SECRET_KEY') or 'afafd6a5f65a6f5a65df6a5f6af65daf84df23sfa6d5fa'
 	SQLALCHEMY_TRACK_MODIFICATIONS = True
-	SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://root@localhost/kelaa'
-	SPARKPOST_KEY = os.environ.get('SPARKPOST_KEY') or 'ab6539162c56ffbdd3d47068c23e28dfce0f5420'
-	SPARKPOST_NOTIFICATION_EMAIL = os.environ.get('SPARKPOST_NOTIFICATION_EMAIL')
-	SPARKPOST_CONTACT_EMAIL = os.environ.get('SPARKPOST_CONTACT_EMAIL') or 'passwordreset@kelaa.co'
+	SQLALCHEMY_DATABASE_URI = 'postgres://mqnnybvzsoecdu:20e016e0ea332c909ce251bcbb5e4ff86ca3b5ee07b30c204db4f48a74836e16@ec2-54-235-159-101.compute-1.amazonaws.com:5432/d6q284ahkijbqd'
+	#'mysql+pymysql://root@localhost/kelaa'
+	SPARKPOST_KEY = os.environ.get('SPARKPOST_KEY') 
+	SPARKPOST_CONTACT_EMAIL = os.environ.get('SPARKPOST_EMAIL') or 'no-reply@kelaa.co'
 	WHOOSH_ANALYZER = StemmingAnalyzer()
 	WHOOSH_BASE = 'whoosh'
 
