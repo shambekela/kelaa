@@ -25,15 +25,15 @@
                     {% for question in results  %}
                     <div class="card mt-2">
                         <div class="card-body pt-2 pb-2">
-                            <a class="small" href="{{ url_for('main.channel', channel_key=question.channel_key) }}">{{ question.quest.title}}</a>
-                            <div class="card-text"> {{ question.text }}</div>
+                            <a href="{{ url_for('main.channel', channel_key=question.channel_key) }}">{{ question.quest.title}}</a>
+                            <div class="card-text"> {{ question.text | capitalize }}</div>
                         </div>
                     </div>
                     {% endfor %}
                 {% else %}
-                    <div class="card bg-light">
+                    <div class="card question-card m-auto text-center">
                         <div class="card-body p-4">
-                            <h4>No results found.</h4>
+                            <p class="text-muted h5">Oops! we found nothing</p>
                         </div>
                     </div>
                 {% endif %}

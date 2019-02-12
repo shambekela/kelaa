@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% import "bootstrap/wtf.html" as wtf %}
 
-{% block title %} {{ super() }} {{ channel.title}} {% endblock title %}
+{% block title %} {{ super() }} Favourite {% endblock title %}
 
 {% block head %} 
 	{{ super() }}
@@ -15,9 +15,8 @@
     <div class="container main">
     	<div class="row">
     		<div class="col-md-8 m-auto p-3 channel-option-container">
-    			<h2 class="d-inline">{{ channel.title }}</h2>
-    			<div class="text-right">
-    				<a class="btn btn-primary btn-sm main-add-button" href="{{ url_for('main.add_question', channel_key=channel.key)}}"><i class="fas fa-plus"></i> new question</a>   				
+    			<h2 class="d-inline">Favourite question(s)</h2>
+    			<div class="text-right">  				
 					<button class="btn btn-primary btn-sm main-review-button" data-toggle="modal" data-target="#review-modal"><i class="fas fa-play"></i> review</button>
     			</div>
     		</div>
@@ -41,15 +40,6 @@
 			    							</div>
 			    						</div>
 			    						<div class="col-md-3 text-right">
-			    							<!-- edit question -->
-			    							<a class="d-none question-card-option mr-2 question-edit" data-toggle="modal" data-target="#question-edit-modal" data-key='{{ question.key }}' data-option='edit'>
-			    								<i class="fas fa-pencil-alt"></i>
-			    							</a>
-			    							<!-- delete question -->
-			    							<a data-key='{{ question.key }}' class="delete-question mr-2 d-none question-card-option">
-				    							<i class="far fa-trash-alt"></i>
-				    						</a>
-
 			    							<!-- favourite question -->
 			    							{% if question.favourite %}
 		    								    <a data-key='{{ question.key }}' class="favourite-question mr-2">
@@ -106,7 +96,7 @@
 		    					<div class="row justify-content-center">
 		    						<div class="card-text ml-2">
 		    							<p class="h4">Nothing here</p>
-		    							<span class="small text-muted"><i class="far fa-lightbulb"></i> Add all questions here while reading.</span> 
+		    							<span class="small text-muted"><i class="far fa-lightbulb"></i> favourited questions will appear here.</span> 
 		    						</div>
 		    					</div>
 		    				</div>
@@ -163,54 +153,6 @@
 	      <div class="modal-body text-right">
 	        <button type="button" class="btn btn-light" data-dismiss="modal">Close</button>
 	        <button type="button" class="btn btn-primary" data-dismiss="modal">Done</button>
-	      </div>
-	    </div>
-	  </div>
-	</div>
-
-	<!-- edit question -->
-	<div class="modal" id="question-edit-modal" tabindex="-1" role="dialog">
-	  <div class="modal-dialog modal-dialog-centered" role="document">
-	    <div class="modal-content home-modal pt-3">
-		  <div class="modal-header">
-	        <h5 class="modal-title" id="new-channel-modal-label">Edit Question </h5>
-	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-	          <span aria-hidden="true">&times;</span>
-	        </button>
-	      </div>
-	      <div class="modal-body">
-	      	<div class="container">
-	      		<div class="row justify-content-center loading-spinner d-none">
-	      			<div class="col-md-6 text-center">
-	      				<div class="spinner-grow" style="width: 3rem; height: 3rem;" role="status">
-						  <span class="sr-only">Loading...</span>
-						</div>
-	      			</div>
-	      		</div>
-	      		<div class="question-modal-edit-content">
-	      			<form method="POST" action="" id="question-edit-form">
-	      				<input type="hidden" name="key" class="question-key-area">
-		      			<div class="form-group">
-		      				<label>Question</label>
-		      				<input type="text" name="question" class="form-control question-title-area" required>
-		      			</div>
-		      			<div class="form-group">
-		      				<label>Answer page</label>
-		      				<input type="text" name="page" class="form-control question-page-area" />
-		      			</div>
-		      			<div class="form-group">
-		      				<label>Answer description</label>
-		      				<textarea name="description" class="form-control question-description-area" rows="5"></textarea>
-		      			</div>
-		      		</form>
-		      		<hr>
-					<div class="float-right">
-						<button type="button" class="btn btn-outline-dark" data-dismiss="modal">cancel</button>
-						<button type="submit" class="btn btn-primary question-update-button" form="question-edit-form">update</button>
-					</div>
-	      		</div>
-
-	      	</div>
 	      </div>
 	    </div>
 	  </div>

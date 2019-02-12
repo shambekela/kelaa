@@ -23,7 +23,6 @@ class User(UserMixin, db.Model):
 		self.password_hash = generate_password_hash(password)
 
 	def check_password(self, password):
-		print(generate_password_hash('toivotoivo'))
 		return check_password_hash(self.password_hash, password)
 
 	def generate_confirmation_token(self, expiration=3600):
@@ -56,7 +55,7 @@ class User(UserMixin, db.Model):
 		except:
 			return False
 		user = db.session.query(User).filter(User.uuid==data.get('reset')).first()
-		print(user)
+
 		if user is None:
 			return False
 		user.set_password(new_password)

@@ -14,9 +14,9 @@ a.app-title{
 	text-decoration: none
 }
 
-header a:hover {
+header a#navbarDropdown:hover {
 	text-decoration: none;
-	color: #999!important;
+	color: #fff!important;
 }
 
 /** landing.html **/
@@ -89,9 +89,8 @@ div.question-card .card-body {
 }
 
 div.question-card {
-	background-color: #d2c7c724;	
+	background-color: #d2c7c7ad;	
 	margin: 4px;
-	border: 0;
 }
 
 div.question-card .card-text a {
@@ -102,6 +101,10 @@ div.question-card .card-body{}
 /** add question.html **/
 textarea {
   resize: none;
+}
+
+div.question-collapse {
+	font-size: 13px;
 }
 
 div.home-modal {

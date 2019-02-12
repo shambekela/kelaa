@@ -122,12 +122,21 @@ def profile(username, tab):
 	return render_template('profile.html', form=form, user=user, securityform=securityform, deleteform=deleteform, active_page=tab)
 
 @main.route('/search', methods=['POST', 'GET'])
+@login_required
 def search():
 
 	query = request.args.get('q')
 	res = Question.query.whoosh_search(query).filter_by(created_by = current_user.uuid).all()
 
 	return render_template('search.html', results=res, query=query)
+
+@main.route('/favourite', methods=['POST', 'GET'])
+@login_required
+def favourite():
+
+	questions = db.session.query(Question).filter(Question.favourite == True, Question.created_by==current_user.uuid).order_by(db.desc(Question.timestamp)).all() # all questions within this active session
+
+	return render_template('favourite.html', questions=questions)
 
 
 ''' routes envoked by javascript '''

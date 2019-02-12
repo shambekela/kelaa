@@ -100,7 +100,7 @@
 	});
 
 	// edit question
-	$('.question-card-option a.question-edit').on('click', function(event) {
+	$('a.question-edit').on('click', function(event) {
 		event.preventDefault();
 		/* Act on the event */
 
@@ -109,16 +109,21 @@
 			option: $(this).data('option')
 		}
 
+		$('.loading-spinner').removeClass('d-none');
+		$('.question-modal-edit-content').addClass('d-none');
+
 		$.ajax({
 			url: '/question_option',
 			type: 'POST',
 			data: question
 		})
 		.done(function(resp) {
-			$('.question-key-area').val(resp[0])
-			$('.question-title-area').val(resp[1])
-			$('.question-page-area').val(resp[2])
-			$('.question-description-area').val(resp[3])
+			$('.question-key-area').val(resp[0]);
+			$('.question-title-area').val(resp[1]);
+			$('.question-page-area').val(resp[2]);
+			$('.question-description-area').val(resp[3]);
+			$('.loading-spinner').addClass('d-none');
+			$('.question-modal-edit-content').removeClass('d-none');
 		})
 		.fail(function() {
 			window.location.reload()
@@ -153,10 +158,10 @@
 		})
 		.done(function(resp) {
 			if (resp) {
-				child.empty().html('<i class="fas fa-star"></i>')
+				child.empty().html('<i class="fas fa-star"></i>');
 				parent.removeClass('d-none question-card-option');
 			} else {
-				child.empty().html('<i class="far fa-star"></i>')
+				child.empty().html('<i class="far fa-star"></i>');
 				parent.addClass('question-card-option');
 			}
 		});
@@ -196,8 +201,9 @@
 		event.preventDefault();
 
 		answer = $(this).data('answer');
+		page = $(this).data('page');
 
-		$.alert( answer );
+		$.alert('<p>' + answer +'</p>' + '<p>' + page + '</p>' );
 	});
 
 }());

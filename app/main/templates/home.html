@@ -23,7 +23,7 @@
     			{% include 'includes/message_flash.html' %}
     			<h1 class="d-inline">Your activity</h1>
     			<div class="text-right">
-    				<button class="btn btn-dark m-auto btn-sm main-add-button" data-toggle="modal" data-target="#new-channel-modal"><i class="fas fa-plus"></i> Add a new channel</button>
+    				<button class="btn btn-primary m-auto btn-sm main-add-button" data-toggle="modal" data-target="#new-channel-modal"><i class="fas fa-plus"></i> new channel</button>
     			</div>
     		</div>
     	</div>
@@ -36,7 +36,7 @@
 							<div class="card-body">
 								<div class="row d-flex">
 									<div class="col-md-10">
-										<div class="card-text h4"><a href="{{ url_for('main.channel', channel_key=channel.key)}}" class="channel-title">{{ channel.title }}</a> </div>
+										<div class="h4 "><a href="{{ url_for('main.channel', channel_key=channel.key)}}" class="channel-title text-dark">{{ channel.title }}</a> </div>
 										<div>
 											<p class="text-muted small">{{ channel.description }}</p>
 										</div>
@@ -76,7 +76,8 @@
 	    					<div class="row justify-content-center">
 	    						<div class="card-text h5 ml-2">
 	    							<p class="h3"><i class="fas fa-comment-slash"></i></p>
-	    							<p>Nothing here. Click 'Add a new channel' to get going.</p> 
+	    							<p>Nothing here. Click 'new channel' to get going.</p>
+	    							<span class="small text-muted"><i class="far fa-lightbulb"></i> Channel is a book name, chapter header or course section your reading.</span>
 	    						</div>
 	    					</div>
 	    				</div>
@@ -119,18 +120,30 @@
 	<div class="modal" id="channel-option-modal" tabindex="-1" role="dialog">
 	  <div class="modal-dialog modal-dialog-centered" role="document">
 	    <div class="modal-content home-modal pt-3">
+	      <div class="modal-header">
+	        <h5 class="modal-title" id="new-channel-modal-label">Edit channel </h5>
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	          <span aria-hidden="true">&times;</span>
+	        </button>
+	      </div>
 	      <div class="modal-body">
 	      	<div class="container">
-	      		
+	      		<div class="row justify-content-center loading-spinner d-none">
+	      			<div class="col-md-6 text-center">
+	      				<div class="spinner-grow" style="width: 3rem; height: 3rem;" role="status">
+						  <span class="sr-only">Loading...</span>
+						</div>
+	      			</div>
+	      		</div>
 	      		<div class="modal-edit-option-content">
 	      			<form method="POST" id="edit-channel">
 	      				<input type="hidden" name="key" class="update-channel-key">
 		      			<div class="form-group">
-		      				<label class="font-weight-bold">Title</label>
+		      				<label>Title</label>
 		      				<input type="text" name="title" class="form-control update-channel-title" required>
 		      			</div>
 		      			<div class="form-group">
-		      				<label class="font-weight-bold">Description</label>
+		      				<label>Description</label>
 		      				<textarea name="description" class="form-control update-channel-description" rows="5"></textarea>
 		      			</div>
 		      		</form>
@@ -147,6 +160,63 @@
 	  </div>
 	</div>
 
+	<!-- edit channel -->
+	<div class="modal" id="started-modal" tabindex="-1" role="dialog">
+	  <div class="modal-dialog modal-dialog-centered" role="document">
+	    <div class="modal-content">
+	      <div class="modal-header bg-secondary">
+	        <h4 class="modal-title text-light" id="new-channel-modal-label">Welcome to Kelaa </h4>
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	          <span aria-hidden="true">&times;</span>
+	        </button>
+	      </div>
+	      <div class="modal-body p-2">
+	      	<div>
+	      		<div>
+	      			<div class="p-2">
+	      				<p class="h4">What you can do with Kelaa</p>
+	      			</div>
+	        		<ul class="list-group list-group-flush ">
+					  <li class="list-group-item welcome-guide-list"> 
+						  <div class="h4">⚡️ Add Channels</div>
+						  <div class="card">
+						  	<div class="card-body p-2">
+						  		<span>Channel can be book, book section or chapter header. Once created you can start adding in questions related to this channel. </span>
+						  	</div>
+						  </div>
+					  </li>
+					  <li class="list-group-item welcome-guide-list"> 
+						  <div class="h4">⭐️ Add Questions</div>
+						  <div class="card">
+						  	<div class="card-body p-2">
+						  		<span>Ask yourself questions while reading and keep them in Kelaa under their respective channels.</span>
+						  		<span>The more questions you come up with the better engaged you will be with the content.</span>
+						  	</div>
+						  </div>
+					  </li>
+					  <li class="list-group-item welcome-guide-list"> 
+						  <div class="h4">⚡ Review</div>
+						  <div class="card">
+						  	<div class="card-body p-2">
+						  		<span>Come back and review your questions.</span>
+						  		<span>Reviewing helps ensure that you remember the material.</span>
+						  	</div>
+						  </div>
+					  </li>
+					</ul>
+	        	</div>
+	      	</div>
+	      </div>
+
+	      <div class="modal-body">
+	      	<div class="float-right">
+	      		<button type="button" data-dismiss="modal" class="btn btn-secondary">continue</button>
+	      	</div>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+
 {% endblock main %}
 
 {% block footer %}
@@ -155,4 +225,11 @@
 
 {% block scripts %}
     {{ super() }}
+   {% if not channels %}
+        <script type="text/javascript">
+	    	$(window).on('load',function(){
+		        $('#started-modal').modal('show');
+		    });
+	    </script>
+   {% endif %}
 {% endblock scripts %}
