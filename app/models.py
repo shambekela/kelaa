@@ -69,7 +69,7 @@ class UserDetail(db.Model):
 	user_uuid = db.Column(db.Integer, db.ForeignKey('user.uuid', ondelete="CASCADE"))
 	receive_email = db.Column(db.Boolean, default=True)
 	email_confirmed = db.Column(db.Boolean, default=False)
-	login_type = db.Column(db.Integer, db.ForeignKey('login_type.id')) # 1 - email, 2 - google, 3 - twitter
+	login_type = db.Column(db.Integer, default=1) # 1 - email, 2 - google, 3 - twitter
 	'''
 	user_type = db.Column(db.Integer, db.ForeignKey('user_type.id'))
 	'''
@@ -123,13 +123,13 @@ class Activity(db.Model):
 	started_date = db.Column(db.Integer, default=datetime.utcnow)
 	in_progress = db.Column(db.Boolean, default=True)
 
-
+'''
 class LoginType(db.Model):
 	__tablename__ = 'login_type'
 	id = db.Column(db.Integer, primary_key=True)
 	type = db.Column(db.String(128), nullable=False) # 1 - email, 2 - google, 3 - twitter
 	users = db.relationship('UserDetail', backref='logintype', lazy=True)
-'''
+
 class UserType(db.Model):
 	__tablename__ = 'user_type'
 	id = db.Column(db.Integer, primary_key=True)
