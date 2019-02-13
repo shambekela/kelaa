@@ -8,6 +8,10 @@ from app.models import User, UserDetail
 import uuid
 from flask_login import login_user, logout_user, login_required, current_user
 
+@auth.before_request
+def before_request():
+    print('Current: '+ str(current_user))
+    
 @auth.route('/login', methods=['GET', 'POST'])
 @user_loggedin(current_user)
 def login():
