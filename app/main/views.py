@@ -15,7 +15,7 @@ import json
 # before request handler: redirect if not logged in .    
 @main.before_request
 def before_request():
-	pass
+	print('Main current: '+str(current_user))
 
 # landing page 
 @main.route('/')
