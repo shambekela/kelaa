@@ -21,6 +21,8 @@ def login():
 
             login_user(user, remember=True)
             db.session.commit()
+            
+            print('loggedin: '+str(current_user))
 
             next = request.args.get('next')
             if next is None:
