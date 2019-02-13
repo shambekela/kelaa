@@ -108,7 +108,7 @@ def confirm(token):
 @auth.route('/resend_confirmation')
 @login_required
 def resend_confirmation():
-    token = current_user.generate_confirmation_token() #generates a unique token.
-    send_email(user=current_user, token=token)
+    token = newuser.generate_confirmation_token()
+    confirm_email(user=current_user, token=token)
     flash('Email successfully resent.', 'warning')
-    return redirect(url_for('auth.confirm_account'))
+    return redirect(url_for('main.home'))
