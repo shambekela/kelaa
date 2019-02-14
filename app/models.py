@@ -63,6 +63,10 @@ class User(UserMixin, db.Model):
 		db.session.commit()
 		return True
 
+@login_manager.user_loader
+def load_user(id):
+	return User.query.get(int(id))
+	
 class UserDetail(db.Model):
 	__tablename__ = 'user_detail'
 	id = db.Column(db.Integer, primary_key=True)
@@ -136,6 +140,3 @@ class UserType(db.Model):
 	type = db.Column(db.String(128), nullable=False) # google, email, twitter
 	users = db.relationship('UserDetail', backref='logintype', lazy=True)
 '''
-@login_manager.user_loader
-def load_user(id):
-	return User.query.filter_by(id=int(id)).first()

@@ -6,22 +6,21 @@ from flask_moment import Moment
 from flask_login import LoginManager, current_user
 import flask_whooshalchemyplus
 
+login_manager = LoginManager()
+login_manager.login_view = 'auth.login'
+login_manager.login_message_category = 'info'
 db = SQLAlchemy(session_options={"expire_on_commit": False})
 bootstrap = Bootstrap()
 moment = Moment()
-login_manager = LoginManager()
-login_manager.session_protection = "strong"
-login_manager.login_view = 'auth.login'
-login_manager.login_message_category = "info"
 
 def create_app(config_name):
 	app = Flask(__name__)
 	app.config.from_object(config[config_name])
 	config[config_name].init_app(app)
+	login_manager.init_app(app)
 	db.init_app(app)
 	bootstrap.init_app(app)
 	moment.init_app(app)
-	login_manager.init_app(app)
 
 	if app.config['SSL_REDIRECT']:
 		from flask_sslify import SSLify

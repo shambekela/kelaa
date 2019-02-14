@@ -19,14 +19,12 @@ def login():
 
     print(current_user)
     if form.validate_on_submit():
-        print('Hererereree: ' + str(form.validate_on_submit()))
+        
         user = User.query.filter_by(email=form.email.data).first()
         if user is not None and user.check_password(form.password.data):
 
             login_user(user, remember=True)
             db.session.commit()
-            
-            print('loggedin: '+str(current_user))
 
             next = request.args.get('next')
             if next is None:
@@ -117,8 +115,5 @@ def resend_confirmation():
     token = newuser.generate_confirmation_token()
     confirm_email(user=current_user, token=token)
     flash('Email successfully resent.', 'warning')
-<<<<<<< HEAD
+
     return redirect(url_for('main.home'))
-=======
-    return redirect(url_for('auth.confirm_account'))
->>>>>>> 03c2f1ca5d5e27cebff45c632b9aceebbad5c87f
