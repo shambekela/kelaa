@@ -37,7 +37,7 @@ PySocks==1.6.8
 python-dateutil==2.7.5
 python-editor==1.0.3
 pytz==2018.7
-requests~> 2.20.0
+requests>=2.20.0
 requests-oauthlib==1.0.0
 revision==0.1.1
 six==1.11.0
